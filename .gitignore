@@ -1,0 +1,8 @@
+artifacts/
+node_modules/
+*.log
+*.mp4
+Screenshot*.png
+.env
+.env.*
+!.env.example

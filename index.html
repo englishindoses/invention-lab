@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="cartoon">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3e9">
+  <title>The Invention Lab</title>
+  <link rel="icon" href="assets/icons/lab.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <link rel="stylesheet" href="css/cartoon-art.css">
+  <link rel="stylesheet" href="css/lab-experience.css">
+  <link rel="stylesheet" href="css/theme-art.css">
+  <script defer src="js/config.js"></script>
+  <script defer src="js/words.js"></script>
+  <script defer src="js/achievements.js"></script>
+  <script defer src="js/game.js"></script>
+  <script defer src="js/storage.js"></script>
+  <script defer src="js/access.js"></script>
+  <script defer src="js/themes.js"></script>
+  <script defer src="js/sounds.js"></script>
+  <script defer src="js/word-display.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body data-view="home">
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="The Invention Lab home"><span class="brand-icon">✳</span><span>THE INVENTION<span class="brand-bottom">LAB<span class="brand-dot">.</span></span></span></a>
+    <nav id="lab-nav" aria-label="Lab navigation" hidden>
+      <button data-view="lab">The Lab</button><button data-view="collection">My Inventions</button><button data-view="achievements">Achievements</button><button data-view="stats">Statistics</button>
+    </nav>
+    <div id="member-tools" class="header-tools" hidden><span id="inventor-name"></span><button id="settings" class="settings-gear" aria-label="Settings" title="Settings">⚙</button><button id="leave-lab" class="small-button">Leave Lab</button></div>
+    <span id="welcome-label">Where bright ideas begin.</span>
+  </header>
+  <div id="storage-warning" class="warning" role="alert" hidden></div>
+  <main>
+    <section id="view-home" class="view reception" aria-labelledby="home-title">
+      <h1 id="home-title">Welcome, <em>inventor.</em></h1>
+      <div class="reception-desks">
+        <div class="registration-board">
+          <div class="clipboard-clip" aria-hidden="true"></div>
+          <form id="register-form">
+            <div class="registration-heading"><span aria-hidden="true">✳</span><h2>Register Inventor</h2></div>
+            <label for="register-name">Name</label><input id="register-name" name="inventor" maxlength="40" required autocomplete="off" spellcheck="false">
+            <label for="register-password">Password</label><input id="register-password" name="new-password" type="password" maxlength="128" required autocomplete="new-password">
+            <button id="register-submit" class="primary" type="submit">Register Inventor <span aria-hidden="true">↗</span></button>
+            <p id="register-status" class="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+        <div class="security-pad">
+          <div class="pad-top"><span class="pad-light" aria-hidden="true"></span><h2>Lab Access</h2><span class="pad-lock" aria-hidden="true">⌑</span></div>
+          <div id="access-status" class="access-screen" data-state="idle" role="status" aria-live="polite">AWAITING INVENTOR</div>
+          <form id="access-form">
+            <label for="access-name">Name</label><input id="access-name" name="inventor" maxlength="40" required autocomplete="username" spellcheck="false">
+            <label for="access-password">Password</label><input id="access-password" name="password" type="password" maxlength="128" required autocomplete="current-password">
+            <button id="access-submit" type="submit">Access Lab <span aria-hidden="true">→</span></button>
+          </form>
+          <div class="pad-grille" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </section>
+    <section id="view-lab" class="view" aria-label="Invention Lab" hidden>
+      <div class="lab-layout">
+        <div class="machine-area">
+          <div class="machine" id="machine">
+            <div class="machine-top" aria-hidden="true"><span id="machine-symbol">⚙</span></div>
+            <div class="machine-inside">
+              <div class="word-slots"><div class="slot"><div id="word-0" class="word-display" aria-live="polite">?</div></div><div class="plus" aria-hidden="true">+</div><div class="slot"><div id="word-1" class="word-display" aria-live="polite">?</div></div></div>
+              <div class="levers">
+                <button class="lever" id="lever-0" aria-label="Pull left lever, 1 coin" title="1 coin"><span class="mechanical-lever" aria-hidden="true"><span class="lever-mount"></span><span class="lever-arm"><span class="lever-shaft"></span><span class="lever-grip"></span></span></span></button>
+                <span class="gear" aria-hidden="true">⚙</span>
+                <button class="lever" id="lever-1" aria-label="Pull right lever, 1 coin" title="1 coin"><span class="mechanical-lever" aria-hidden="true"><span class="lever-mount"></span><span class="lever-arm"><span class="lever-shaft"></span><span class="lever-grip"></span></span></span></button>
+              </div>
+            </div>
+            <div class="machine-bottom" aria-hidden="true"><span class="vents">▰ ▰ ▰ ▰ ▰</span></div>
+          </div>
+          <div class="machine-feet" aria-hidden="true"><i></i><i></i></div>
+          <button id="bonus" class="bonus" hidden>Free Restart Bonus · +10 coins</button>
+        </div>
+        <div class="lab-sidebar">
+          <aside class="sale-panel" aria-label="Invention sale">
+            <label for="invention-name" class="sr-only">Invention name</label><input id="invention-name" maxlength="80" placeholder="Invention name" autocomplete="off">
+            <div class="sale-buttons"><button data-price="5" aria-label="Buy for 5 coins" disabled><span>Buy</span><strong>5 <small>coins</small></strong></button><button data-price="10" aria-label="Buy for 10 coins" disabled><span>Buy</span><strong>10 <small>coins</small></strong></button><button data-price="50" class="jackpot" aria-label="Buy for 50 coins" disabled><span>Buy</span><strong>50 <small>coins</small></strong></button></div>
+            <button data-price="0" class="no-sale" disabled>Don’t Buy</button>
+          </aside>
+          <div class="wallet cashbag" role="status" aria-live="polite" aria-atomic="true"><img src="assets/images/shared/coin-bag.png" alt="" width="1254" height="1254"><div class="cashbag-label"><strong id="balance">0</strong><span>coins</span></div></div>
+        </div>
+      </div>
+    </section>
+    <section id="view-collection" class="view" aria-labelledby="collection-title" hidden><div class="section-heading"><div><h1 id="collection-title">My <em>Inventions.</em></h1></div><label class="filter-label">Show <select id="collection-filter"><option value="all">All inventions</option><option value="sold">Sold</option><option value="unsold">Not sold</option></select></label></div><div id="collection" class="card-grid"></div></section>
+    <section id="view-achievements" class="view" aria-labelledby="achievements-title" hidden><div class="section-heading"><div><h1 id="achievements-title">Achievements</h1></div><span class="pill" id="badge-count"></span></div><div id="achievements" class="badge-grid"></div></section>
+    <section id="view-stats" class="view" aria-labelledby="stats-title" hidden><div class="section-heading"><div><h1 id="stats-title">Statistics</h1></div><span class="pill">LIFETIME TOTALS</span></div><div id="statistics" class="stats-grid"></div><div class="data-note"><button id="export" class="secondary">Export backup ↓</button></div></section>
+  </main>
+  <footer><span id="save-status">SAVED ON THIS BROWSER</span></footer>
+  <div id="notifications" aria-live="polite" aria-atomic="false"></div><div id="particles" aria-hidden="true"></div>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><div class="settings-heading"><h2 id="settings-title">Lab Settings</h2><button id="close-settings" class="small-button" aria-label="Close settings">✕</button></div><div class="setting-row"><span>Sound</span><button id="sound" class="secondary" aria-pressed="true">Sound on</button></div><div class="setting-row"><label for="theme">Theme</label><select id="theme"><option value="cartoon">Cartoon Lab</option><option value="future">Future Lab</option><option value="magic">Magic Machine</option></select></div></dialog>
+  <noscript>This game needs JavaScript enabled in your browser.</noscript>
+</body>
+</html>

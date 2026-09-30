@@ -1,0 +1,14 @@
+[data-theme="future"] { color-scheme: dark; --bg: #101d2b; --panel: #162a3a; --ink: #e0f5f4; --muted: #93b6c2; --line: #304b5b; --accent: #89f4d0; --accent-ink: #102b2d; --machine: #234356; --machine-dark: #55cfc7; --screen: #102732; --screen-ink: #9dfae3; --pop: #99b7f8; --grid: #294252; }
+[data-theme="future"] .machine { border-radius: 12px; box-shadow: 0 8px 0 #0a121b, 0 0 35px #55cfc720; }
+[data-theme="future"] .word-display { text-shadow: 0 0 18px #65f6d766; font-family: 'Courier New', monospace; }
+[data-theme="future"] .machine-inside { background-image: linear-gradient(#55cfc709 1px, transparent 1px), linear-gradient(90deg, #55cfc709 1px, transparent 1px); background-size: 20px 20px; }
+[data-theme="future"] .slot { border-radius: 4px; box-shadow: inset 0 0 25px #55cfc714; }
+[data-theme="future"] .lever-drawing b { background: #82f4d3; box-shadow: 0 0 14px #82f4d366; }
+[data-theme="future"] .brand-dot { color: var(--accent); }
+[data-theme="magic"] { color-scheme: dark; --bg: #241d33; --panel: #302640; --ink: #f4e6cc; --muted: #c1abc9; --line: #574264; --accent: #eac575; --accent-ink: #35263e; --machine: #634779; --machine-dark: #d5b06c; --screen: #2c213d; --screen-ink: #ffe4a6; --pop: #c9a2de; --grid: #4c385e; }
+[data-theme="magic"] .machine { border-radius: 45px 45px 22px 22px; box-shadow: 0 8px 0 #332239, 0 0 30px #cf9bf21a; }
+[data-theme="magic"] .machine-inside { background-image: radial-gradient(#eac57535 1px, transparent 1px); background-size: 25px 25px; }
+[data-theme="magic"] .slot { border-radius: 28px 28px 10px 10px; border-color: #b89459; }
+[data-theme="magic"] .word-display { font-family: Georgia, serif; text-shadow: 0 0 18px #eac57544; }
+[data-theme="magic"] .lever-drawing b { background: #ce95e7; box-shadow: 0 0 15px #d092f388; }
+[data-theme="magic"] .mini-machine { border-radius: 45px 45px 20px 20px; }

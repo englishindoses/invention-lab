@@ -1,0 +1,135 @@
+/* Coordinates match the 1536 × 1024 machine artwork. Controls remain live HTML. */
+[data-theme="cartoon"] {
+  --bg: #e6faf4;
+  --panel: #fffbee;
+  --ink: #153e50;
+  --muted: #45656b;
+  --line: #9bcec9;
+  --accent: #ffda45;
+  --accent-ink: #164154;
+  --machine-dark: #087f91;
+}
+[data-theme="cartoon"] body {
+  background: #bce8dd url('../assets/images/cartoon/workshop-background.png') center / cover fixed;
+}
+[data-theme="cartoon"] .topbar,
+[data-theme="cartoon"] .workspace-bar,
+[data-theme="cartoon"] footer { background: #fffbeeef; }
+[data-theme="cartoon"] .section-heading {
+  background: #effcf0ed;
+  border: 1px solid #ffffff9c;
+  border-radius: 16px;
+  padding: 12px 18px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+[data-theme="cartoon"] .section-heading h1 { font-size: clamp(25px, 2.4vw, 38px); }
+[data-theme="cartoon"] .section-heading .eyebrow { margin-bottom: 6px; }
+[data-theme="cartoon"] .pill { background: #fffbee; }
+[data-theme="cartoon"] .machine-area { padding: 0; text-align: center; }
+[data-theme="cartoon"] .machine {
+  width: min(100%, calc((100vh - 410px) * 1.5), 1080px);
+  aspect-ratio: 3 / 2;
+  margin: 0 auto;
+  background: url('../assets/images/cartoon/machine-body.png') center / 100% 100% no-repeat;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  color: #16485a;
+}
+[data-theme="cartoon"] .machine-top,
+[data-theme="cartoon"] .machine-tag,
+[data-theme="cartoon"] .machine-bottom,
+[data-theme="cartoon"] .machine-feet,
+[data-theme="cartoon"] .slot-label,
+[data-theme="cartoon"] .slot-dots,
+[data-theme="cartoon"] .word-slots > .plus,
+[data-theme="cartoon"] .levers > .gear { display: none; }
+[data-theme="cartoon"] .machine-inside { position: absolute; inset: 0; padding: 0; border: 0; background: none; }
+[data-theme="cartoon"] .word-slots { display: contents; }
+[data-theme="cartoon"] .slot {
+  position: absolute;
+  left: 18%; top: 36%; width: 29%; height: 26%;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; border-radius: 0; box-shadow: none;
+  padding: 4%;
+}
+[data-theme="cartoon"] .slot:last-child { left: 53.5%; }
+[data-theme="cartoon"] .word-display {
+  min-height: 0;
+  font-size: clamp(19px, 2.15vw, 34px);
+  line-height: 1.12;
+  letter-spacing: -.6px;
+  overflow-wrap: normal;
+}
+[data-theme="cartoon"] .word-display.empty { font-size: 48px; opacity: .4; }
+[data-theme="cartoon"] .levers {
+  position: absolute; left: 21%; top: 71%; width: 58%; height: 12%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 19%; margin: 0;
+}
+[data-theme="cartoon"] .lever {
+  min-height: 0; padding: 3px 6px; gap: 6px;
+  border: 0; border-radius: 8px; background: transparent;
+  color: #163d4c; box-shadow: none;
+}
+[data-theme="cartoon"] .lever:hover:not(:disabled) { background: #fff4b95c; }
+[data-theme="cartoon"] .lever strong { font-size: clamp(10px, .95vw, 14px); }
+[data-theme="cartoon"] .lever small { font-size: 9px; color: #284c4e; margin-top: 3px; }
+[data-theme="cartoon"] .lever-arrow { display: none; }
+[data-theme="cartoon"] .lever-drawing b { background: #ff7050; }
+[data-theme="cartoon"] .machine-caption {
+  display: inline-block; padding: 5px 16px; margin: 5px 0 0;
+  border-radius: 20px; background: #fffbeeed; color: #16485a;
+}
+[data-theme="cartoon"] .bonus { margin-top: 6px; }
+[data-theme="cartoon"] .sale-panel { border: 2px solid #159baa; box-shadow: 0 5px 0 #077488; }
+[data-theme="cartoon"] .home-copy { padding: 30px; background: #fffbeef2; border-radius: 22px; }
+[data-theme="cartoon"] .home-art {
+  background: url('../assets/images/cartoon/machine-body.png') center / contain no-repeat;
+  border-radius: 0;
+}
+[data-theme="cartoon"] .home-art > * { display: none; }
+[data-theme="cartoon"] .empty-state,
+[data-theme="cartoon"] .data-note { background: #fffbeef2; }
+@media (min-width: 1051px) and (max-height: 820px) {
+  [data-theme="cartoon"] .machine { width: min(100%, calc((100vh - 385px) * 1.5)); }
+}
+/* Give the playable machine the full desktop height, rather than a small card. */
+@media (min-width: 1051px) {
+  body[data-view="lab"] .topbar { min-height: 64px; padding: 7px 2%; }
+  body[data-view="lab"] .workspace-bar { padding: 5px 2%; }
+  body[data-view="lab"] main { max-width: none; min-height: 0; padding: 8px 2%; }
+  body[data-view="lab"] footer { display: none; }
+  [data-theme="cartoon"] body[data-view="lab"] .lab-layout {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 18px;
+    align-items: center;
+  }
+  [data-theme="cartoon"] body[data-view="lab"] .machine {
+    width: min(100%, calc((100vh - 128px) * 1.5));
+  }
+  [data-theme="cartoon"] body[data-view="lab"] .machine-caption { display: none; }
+  [data-theme="cartoon"] body[data-view="lab"] .word-display { font-size: clamp(30px, 3vw, 52px); }
+  [data-theme="cartoon"] body[data-view="lab"] .lever { gap: 12px; padding: 6px 12px; }
+  [data-theme="cartoon"] body[data-view="lab"] .lever strong { font-size: clamp(14px, 1.15vw, 20px); }
+  [data-theme="cartoon"] body[data-view="lab"] .lever small { font-size: 12px; }
+  [data-theme="cartoon"] body[data-view="lab"] .lever-drawing { transform: scale(1.2); margin-right: 5px; }
+  [data-theme="cartoon"] body[data-view="lab"] .sale-panel { padding: 20px; }
+  [data-theme="cartoon"] body[data-view="lab"] .bonus {
+    position: absolute; bottom: 3%; left: 50%; transform: translateX(-50%);
+    margin: 0; white-space: nowrap; box-shadow: 0 3px 8px #153e5033;
+  }
+}
+@media (max-width: 1050px) {
+  [data-theme="cartoon"] .machine { width: 100%; }
+  [data-theme="cartoon"] .slot { padding: 2%; }
+  [data-theme="cartoon"] .lever-drawing { transform: scale(.8); transform-origin: left center; width: 23px; }
+  [data-theme="cartoon"] .lever { gap: 2px; padding: 0; }
+}
+@media (max-width: 500px) {
+  [data-theme="cartoon"] .word-display { font-size: 16px; }
+  [data-theme="cartoon"] .levers { position: static; width: 100%; height: auto; padding-top: 67%; gap: 15px; }
+  [data-theme="cartoon"] .lever { background: #ffda45; padding: 8px; border: 2px solid #087f91; min-height: 55px; }
+  [data-theme="cartoon"] .machine-area { padding-bottom: 0; }
+  [data-theme="cartoon"] .machine { margin-bottom: 65px; }
+}

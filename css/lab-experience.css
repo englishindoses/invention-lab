@@ -1,0 +1,128 @@
+/* Reception, local access pad, and a less cluttered working lab. */
+[data-theme] body {
+  background: var(--bg) url('../assets/images/cartoon/workshop-background-quiet.png') center / cover fixed;
+}
+.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0 !important; }
+.topbar { min-height: 74px; padding: 10px 2%; background: var(--panel); }
+#welcome-label { color: var(--muted); font-size: 14px; }
+#inventor-name { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
+.settings-gear { background: var(--accent); color: var(--accent-ink); border: 1px solid var(--line); border-radius: 50%; width: 43px; height: 43px; font-size: 28px; line-height: 1; }
+body[data-view="home"] main { max-width: 1100px; min-height: calc(100vh - 125px); padding: 20px 4% 30px; }
+.reception > h1 { text-align: center; font-size: clamp(34px, 3.6vw, 52px); margin: 0 0 28px; color: #16485a; text-shadow: 0 2px 8px #effff7; }
+.reception-desks { display: grid; grid-template-columns: 1fr 1fr; gap: 65px; align-items: center; }
+.registration-board { background: #bb7b39; padding: 15px; border: 2px solid #845024; border-radius: 19px; box-shadow: 0 8px 0 #744621, 0 16px 24px #173f4325; position: relative; transform: rotate(-1deg); }
+.registration-board form { background: #fffbea; padding: 32px 29px 18px; border-radius: 7px; color: #153e50; background-image: repeating-linear-gradient(transparent 0 31px, #e3e6d433 32px); }
+.clipboard-clip { position: absolute; width: 110px; height: 30px; top: -12px; left: calc(50% - 55px); border-radius: 8px; border: 3px solid #4f6a70; background: linear-gradient(#d5e5e7, #6c8d92 48%, #c2d5d7); box-shadow: 0 3px 3px #0003; }
+.registration-heading { display: flex; align-items: center; gap: 13px; margin-bottom: 17px; }
+.registration-heading > span { font-size: 38px; color: #0299a5; }
+.registration-heading h2 { margin: 0; font-size: 25px; }
+.reception form label { display: block; margin: 15px 0 8px; font-weight: bold; font-size: 14px; }
+.registration-board label { color: #36575d; }
+.registration-board input { background: white; border: 2px solid #bbd7cd; color: #153e50; padding: 12px; }
+.registration-board .primary { width: 100%; margin-top: 22px; background: #ffcf42; color: #163e48; border: 2px solid #a67a1a; box-shadow: 0 4px 0 #bd881d; }
+.registration-board .primary span { float: right; }
+.form-status { min-height: 36px; margin: 17px 0 0; font-size: 13px; line-height: 1.4; }
+.form-status[data-state="granted"] { color: #177448; }
+.form-status[data-state="denied"] { color: #b02e30; }
+.security-pad { padding: 27px 30px 22px; border: 3px solid #123d4d; border-radius: 25px; background: linear-gradient(135deg, #296677, #164452); box-shadow: 0 8px 0 #102f3b, 0 18px 30px #123e4633, inset 0 2px 0 #73adba; color: #e4fff4; position: relative; }
+.pad-top { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.pad-top h2 { margin: 0; flex: 1; font-size: 24px; }
+.pad-light { width: 10px; height: 10px; border-radius: 50%; background: #ffda51; box-shadow: 0 0 10px #ffda5188; }
+.pad-lock { font-size: 29px; }
+.access-screen { background: #0b2026; border: 3px solid #0a2c35; border-radius: 10px; min-height: 73px; display: grid; place-items: center; font: bold 19px 'Courier New', monospace; letter-spacing: 1px; color: #9ce7dc; box-shadow: inset 0 2px 8px #0006; text-align: center; padding: 10px; }
+.access-screen[data-state="granted"] { color: #66ff8c; border-color: #32bc66; box-shadow: inset 0 0 20px #36dc6222, 0 0 17px #36dc6233; }
+.access-screen[data-state="denied"] { color: #ff7474; border-color: #ed4b59; box-shadow: inset 0 0 20px #ff334422; animation: denied .18s linear 2; }
+.security-pad label { color: #cbebe7; }
+.security-pad input { background: #edf9f3; border: 2px solid #80b4b8; color: #133842; padding: 11px 13px; }
+.security-pad form button { width: 100%; margin-top: 22px; padding: 13px; border-radius: 9px; border: 2px solid #57c5aa; background: #93e9ba; color: #123d3b; font-weight: bold; box-shadow: 0 4px 0 #0d393a; }
+.security-pad form button span { float: right; }
+.pad-grille { display: flex; gap: 5px; justify-content: center; margin-top: 22px; }
+.pad-grille i { display: block; width: 22px; height: 5px; background: #0d303c; border-radius: 3px; }
+.settings-heading, .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.settings-heading h2 { margin: 0; }
+.setting-row { padding-top: 25px; }
+.setting-row label { color: var(--ink); }
+body[data-view="lab"] main { max-width: none; min-height: 0; padding: 8px 2%; }
+body[data-view="lab"] footer { display: none; }
+.lab-sidebar { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 26px; align-self: stretch; }
+.lab-sidebar .sale-panel { width: 100%; padding: 16px; }
+.sale-buttons { margin-top: 14px; }
+.sale-buttons .jackpot { display: flex; align-items: center; justify-content: space-between; }
+.no-sale { text-align: center; }
+.cashbag.wallet { display: block; position: relative; flex: 0 0 auto; width: min(100%, 235px); aspect-ratio: 1; margin: 0; gap: 0; filter: drop-shadow(0 7px 4px #603f382b); }
+.cashbag img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.cashbag-label { position: absolute; left: 22%; top: 48%; width: 53%; height: 32%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #674318; }
+.cashbag-label strong { font-size: clamp(25px, 2.5vw, 43px); line-height: 1; letter-spacing: -1px; }
+.cashbag-label span { font-size: 15px; margin-top: 5px; font-weight: bold; }
+.machine-top { justify-content: center; }
+.machine-bottom { justify-content: center; }
+.mechanical-lever { position: relative; display: block; width: 110px; height: 115px; flex-shrink: 0; }
+.lever-mount { position: absolute; width: 88px; height: 33px; left: 11px; bottom: 5px; border: 3px solid #254b59; border-radius: 50%; background: radial-gradient(ellipse, #142b39 0 20%, #afc8ce 22% 39%, #426678 42% 55%, #99a9b5 58% 70%, #3b6371 75%); box-shadow: 0 5px 0 #193744, 0 7px 7px #0005; }
+.lever-arm { position: absolute; bottom: 21px; left: 35px; width: 40px; height: 92px; }
+.lever-shaft { position: absolute; top: 25px; left: 13px; bottom: 0; width: 14px; border: 2px solid #416475; border-radius: 6px; background: linear-gradient(90deg, #688c9a, #f0f8f3 38%, #b6d9dd 56%, #557384); box-shadow: 3px 3px 4px #0003; }
+.lever-grip { position: absolute; width: 43px; height: 43px; top: 0; left: -2px; border-radius: 50%; border: 2px solid #9b402c; background: radial-gradient(circle at 30% 24%, #fff1c7 0 5%, #ffb787 10%, #ff6345 35%, #c83725 75%, #792923 100%); box-shadow: inset -4px -3px 6px #78241d55, 2px 4px 5px #0004; }
+.lever:hover:not(:disabled) .lever-grip { filter: brightness(1.12); }
+.lever.pulling .lever-grip { animation: lever-handle-down .7s ease-in-out; }
+.lever.pulling .lever-shaft { animation: lever-shaft-down .7s ease-in-out; }
+.lever:disabled .mechanical-lever { filter: saturate(.6); }
+[data-theme="future"] .lever-grip { border-color: #1585ad; background: radial-gradient(circle at 30% 24%, #eaffff, #5cf1ef 35%, #157fc5 75%, #104174); box-shadow: 0 0 13px #5cf1ef77; }
+[data-theme="magic"] .lever-grip { border-radius: 12px; border-color: #9c62b8; background: linear-gradient(135deg, #fff0a0, #eb89ec 40%, #9058bf 65%, #532485); box-shadow: 0 0 12px #eb89ec66; }
+[data-theme] .lever { justify-content: center; }
+[data-theme="cartoon"] body[data-view="lab"] .levers { top: 66%; height: 20%; }
+[data-theme="cartoon"] body[data-view="lab"] .lever { padding: 0; background: transparent; }
+[data-theme="cartoon"] body[data-view="lab"] .lever:hover:not(:disabled) { background: #fff4b926; }
+[data-theme="cartoon"] body[data-view="lab"] .lever:focus-visible { outline-offset: -2px; border-radius: 12px; }
+@keyframes lever-handle-down {
+  0%, 100% { top: 0; }
+  45%, 65% { top: 55%; }
+}
+@keyframes lever-shaft-down {
+  0%, 100% { top: 25px; }
+  45%, 65% { top: calc(55% + 25px); }
+}
+@keyframes denied { 50% { transform: translateX(3px); } }
+@media (min-width: 1051px) {
+  body[data-view="lab"] .topbar { min-height: 64px; padding: 7px 2%; }
+  body[data-view="lab"] .lab-layout,
+  [data-theme="cartoon"] body[data-view="lab"] .lab-layout { grid-template-columns: minmax(0, 1fr) 260px; gap: 20px; align-items: end; min-height: calc(100vh - 88px); }
+  [data-theme="cartoon"] body[data-view="lab"] .machine { width: min(100%, calc((100vh - 90px) * 1.5)); }
+  body[data-view="lab"] .lab-sidebar { min-height: 0; padding-bottom: 2px; justify-content: space-between; padding-top: 6vh; }
+  body[data-view="lab"] .machine-area { align-self: end; }
+  [data-theme="cartoon"] body[data-view="lab"] .sale-panel { padding: 16px; }
+  [data-theme="cartoon"] body[data-view="lab"] .bonus { bottom: 0; }
+  body[data-view="lab"] .cashbag { width: min(100%, 25vh); }
+  body[data-view="lab"] .lever .mechanical-lever { width: 110px; height: clamp(100px, 13vh, 140px); }
+  body[data-view="lab"] .lever-arm { height: 82%; }
+}
+@media (max-width: 1050px) {
+  .topbar { gap: 10px; }
+  #lab-nav { order: 3; }
+  .reception-desks { gap: 28px; }
+  .registration-board form, .security-pad { padding-left: 20px; padding-right: 20px; }
+  .lab-sidebar { gap: 15px; }
+  .mechanical-lever { transform: scale(.8); transform-origin: 50% 100%; }
+}
+@media (max-width: 800px) {
+  .lab-sidebar { flex-direction: row; align-items: flex-end; }
+  .lab-sidebar .sale-panel { flex: 1; }
+  .cashbag.wallet { width: 150px; }
+}
+@media (max-width: 650px) {
+  .reception-desks { grid-template-columns: 1fr; gap: 35px; }
+  .reception > h1 { margin-bottom: 25px; }
+  #welcome-label { font-size: 12px; }
+  #inventor-name { max-width: 90px; font-size: 12px; }
+  .header-tools { gap: 7px; }
+  .topbar { flex-wrap: wrap; }
+  .lab-sidebar { gap: 10px; }
+  .cashbag.wallet { width: 110px; }
+  .cashbag-label strong { font-size: 23px; }
+  .cashbag-label span { font-size: 11px; }
+  .mechanical-lever { transform: scale(.65); transform-origin: center; }
+}
+@media (max-width: 500px) {
+  [data-theme="cartoon"] body[data-view="lab"] .levers { top: auto; height: 80px; }
+  [data-theme="cartoon"] body[data-view="lab"] .lever { min-height: 80px; background: #ffda45; }
+  [data-theme="cartoon"] body[data-view="lab"] .machine { margin-bottom: 95px; }
+}
+@media (prefers-reduced-motion: reduce) { .lever-arm { transition: none; } }

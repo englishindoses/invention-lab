@@ -1,0 +1,70 @@
+/* Generated artwork with live, accessible words and independent controls. */
+[data-theme="future"] {
+  --bg: #080c27; --panel: #101b38; --ink: #e6fbff; --muted: #a2d9eb;
+  --line: #299bbd; --accent: #56f8ff; --accent-ink: #08152e;
+  --screen-ink: #8cffff;
+}
+[data-theme="future"] body { background: #080c27 url('../assets/images/future/workshop-background.png') center / cover fixed; }
+[data-theme="magic"] body { background: #241530 url('../assets/images/magic/workshop-background.png') center / cover fixed; }
+:is([data-theme="future"], [data-theme="magic"]) .machine-area { padding: 0; text-align: center; }
+:is([data-theme="future"], [data-theme="magic"]) .machine {
+  width: min(100%, calc((100vh - 90px) * 1.5)); aspect-ratio: 3 / 2;
+  margin: 0 auto; border: 0; border-radius: 0; box-shadow: none;
+  background: center / 100% 100% no-repeat;
+}
+[data-theme="future"] .machine { background-image: url('../assets/images/future/machine-body.png'); }
+[data-theme="magic"] .machine { background-image: url('../assets/images/magic/machine-body.png'); }
+:is([data-theme="future"], [data-theme="magic"]) :is(.machine-top, .machine-tag, .machine-bottom, .machine-feet, .slot-label, .slot-dots, .word-slots > .plus, .levers > .gear, .machine-caption) { display: none; }
+:is([data-theme="future"], [data-theme="magic"]) .machine-inside { position: absolute; inset: 0; padding: 0; border: 0; background: none; }
+:is([data-theme="future"], [data-theme="magic"]) .word-slots { display: contents; }
+:is([data-theme="future"], [data-theme="magic"]) .slot {
+  position: absolute; left: 18%; top: 36%; width: 29%; height: 26%;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 0; border-radius: 0; box-shadow: none; padding: 2%;
+}
+:is([data-theme="future"], [data-theme="magic"]) .slot:last-child { left: 53.5%; }
+:is([data-theme="future"], [data-theme="magic"]) .word-display { min-height: 0; font-size: clamp(24px, 3vw, 52px); line-height: 1.12; overflow-wrap: normal; }
+[data-theme="magic"] .word-display { font-size: clamp(20px, 2.4vw, 42px); }
+[data-theme="magic"] .slot { left: 17%; top: 39%; width: 26%; height: 14%; padding: 1%; }
+[data-theme="magic"] .slot:last-child { left: 57%; }
+[data-theme="future"] .word-display { color: #94ffff; text-shadow: 0 0 8px #19cfff, 0 0 22px #19cfff99; }
+[data-theme="future"] :is(.brand, nav, .sale-panel h2, .sale-panel label, .reception > h1) { color: #9fffff; text-shadow: 0 0 12px #1bcfff88; }
+[data-theme="future"] :is(.topbar, .sale-panel, dialog, .security-pad) { background: #0b1739ee; border: 1px solid #54ecff; box-shadow: inset 0 0 18px #1bcfff15, 0 0 16px #1bcfff44; }
+[data-theme="future"] :is(input, select, .sale-buttons button, .small-button) { border-color: #45dfff; box-shadow: 0 0 9px #2adfff33; }
+[data-theme="magic"] .reception > h1 { color: #ffe4a6; text-shadow: 0 0 14px #bc69ed; }
+:is([data-theme="future"], [data-theme="magic"]) .levers { position: absolute; left: 21%; top: 65%; width: 58%; height: 21%; display: grid; grid-template-columns: 1fr 1fr; gap: 19%; margin: 0; }
+:is([data-theme="future"], [data-theme="magic"]) .lever { min-height: 0; padding: 0; border: 0; border-radius: 12px; background: transparent; box-shadow: none; }
+:is([data-theme="future"], [data-theme="magic"]) .lever:hover:not(:disabled) { background: #a3efff16; }
+:is([data-theme="future"], [data-theme="magic"]) .bonus { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); margin: 0; white-space: nowrap; }
+[data-theme="future"] .lever-mount { border-color: #5af7ff; box-shadow: 0 0 13px #34eaff88; }
+[data-theme="magic"] .levers { left: 22%; top: 8%; width: 56%; height: 22%; gap: 22%; }
+[data-theme="magic"] .lever { position: relative; height: 100%; }
+[data-theme="magic"] .lever-mount { display: none; }
+[data-theme="magic"] .mechanical-lever { position: absolute; top: 0; left: calc(50% - 55px); height: 100% !important; }
+[data-theme="magic"] .lever .lever-arm { top: 0; height: 100%; bottom: auto; scale: 1.3; transform: rotate(-18deg); transform-origin: 50% 90%; }
+[data-theme="magic"] .lever-shaft { top: 0; bottom: 18%; left: 15px; width: 10px; border-color: #754516; background: linear-gradient(90deg, #804517, #edbe70, #975622); border-radius: 7px; }
+[data-theme="magic"] .lever-grip { top: auto; bottom: 0; left: 5px; width: 30px; height: 43px; border-radius: 50%; border: 2px solid #955c20; background: radial-gradient(ellipse, #a46a29, #f6d494 72%, #8c551b); box-shadow: 0 0 12px #d6a95e55; }
+[data-theme="magic"] .lever.pulling :is(.lever-grip, .lever-shaft) { animation: none; }
+[data-theme="magic"] .lever.pulling .lever-arm { animation: stir-potion .7s ease-in-out; }
+@keyframes stir-potion { 25% { transform: translateX(12px) rotate(12deg); } 65% { transform: translateX(-12px) rotate(-30deg); } }
+@media (min-width: 1051px) {
+  [data-theme="magic"] .machine { background-size: 104% 104%; background-position: center top; overflow: clip; }
+  [data-theme="magic"] .machine-inside { scale: 1.04; transform-origin: center top; }
+}
+@media (max-width: 1050px) {
+  :is([data-theme="future"], [data-theme="magic"]) .machine { width: 100%; }
+  :is([data-theme="future"], [data-theme="magic"]) .word-display { font-size: clamp(16px, 3vw, 32px); }
+  [data-theme="magic"] .word-display { font-size: clamp(14px, 2.4vw, 26px); }
+}
+@media (prefers-reduced-motion: reduce) { [data-theme="magic"] .lever.pulling .lever-arm { animation: none; } }
+/* The slot defines the fixed box, independent of its text length. */
+[data-theme] .word-display {
+  width: 100%; height: 100%; min-width: 0; min-height: 0;
+  white-space: nowrap; overflow: hidden; flex: 0 0 100%;
+  font-size: clamp(24px, 3vw, 52px);
+}
+[data-theme="magic"] .word-display { font-size: clamp(22px, 2.7vw, 46px); }
+@media (max-width: 1050px) {
+  [data-theme] .word-display { font-size: clamp(16px, 3vw, 32px); }
+  [data-theme="magic"] .word-display { font-size: clamp(16px, 2.7vw, 30px); }
+}
