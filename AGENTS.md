@@ -21,7 +21,7 @@ When tooling is introduced, document its exact setup and commands here. Keep the
 
 The focused shop visual check is `python scripts/check-shop.py`. It requires Python with the `playwright` package installed (`python -m pip install playwright`) and uses the installed Chrome executable. It checks three desktop sizes across all themes and saves `artifacts/magic-shop-full-page.png`.
 
-Shop uploads and JSON backup import/export use `js/shop-storage.js` and a separate IndexedDB database. Preserve existing localStorage profiles and Ann's supplied items. The shop check also covers upload/edit/remove, occupied shelves, pages, backup transfer, invalid input, failed writes, reload, and profile isolation.
+Shop uploads and JSON backup import/export use `js/shop-storage.js` and a separate IndexedDB database. Preserve existing localStorage profiles and browser-uploaded shop items. Ann's former published images have been removed at the user's request. The shop check also covers upload/edit/remove, occupied shelves, pages, backup transfer, invalid input, failed writes, reload, and profile isolation.
 
 ## Coding Style & Naming Conventions
 

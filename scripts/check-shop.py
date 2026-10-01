@@ -113,15 +113,12 @@ try:
     page.locator('#access-submit').click()
     page.wait_for_selector('body[data-view="lab"]')
     page.locator('nav [data-view="shop"]').click()
-    placements = {'01': 'endofnightmares.png', '4a': 'colourchangingteddybear.png', '10b': 'flyinglunchbox.png', '28': 'flyingskateboard.png', '07': 'octopusthecooker.png', '08': 'unbreakablebed.png'}
-    for slot, filename in placements.items():
-      image = page.locator(f'[data-slot="display-{slot}"] img')
-      assert image.get_attribute('src').endswith('/' + filename)
-      image.evaluate('(img) => img.decode()')
-    assert page.locator('.shop-slot img').count() == 6
+    page.wait_for_function('!document.querySelector("#shop-add").disabled')
+    assert page.locator('.shop-slot img').count() == 0
     page.reload()
     page.wait_for_selector('body[data-view="shop"]')
-    assert page.locator('.shop-slot img').count() == 6
+    page.wait_for_function('!document.querySelector("#shop-add").disabled')
+    assert page.locator('.shop-slot img').count() == 0
     for image in page.locator('.shop-slot img').all():
       image.evaluate('(img) => img.decode()')
     page.screenshot(path=str(root / 'artifacts' / 'ann-shop.png'))
@@ -137,17 +134,30 @@ try:
     # Upload through the same controls used by teachers on GitHub Pages.
     page.locator('[data-slot="display-01"]').click()
     page.locator('#shop-item-name').fill('My Flying Lunchbox')
-    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/items/ann/flyinglunchbox.png'))
+    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/shared/coin-bag.png'))
     page.locator('#shop-item-save').click()
     page.wait_for_selector('#shop-editor', state='hidden')
     page.wait_for_selector('[data-slot="display-01"].has-item')
+    fitting_checked = page.evaluate('''async () => {
+      const canvas = document.createElement('canvas'); canvas.width = 128; canvas.height = 128;
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = '#36b'; ctx.fillRect(40, 30, 32, 48);
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+      const prepared = await Lab.shopStorage.prepareImage(blob);
+      const cropped = await createImageBitmap(prepared);
+      const good = cropped.width === 32 && cropped.height === 48;
+      cropped.close();
+      const img = document.querySelector('[data-slot="display-01"] img');
+      const box = img.getBoundingClientRect(); const shelf = img.parentElement.getBoundingClientRect();
+      return good && getComputedStyle(img).objectFit === 'contain' && box.width <= shelf.width && box.height <= shelf.height;
+    }''')
+    assert fitting_checked, 'Transparent margins trimmed; image stays inside its shelf with preserved proportions'
     page.reload()
     page.wait_for_selector('body[data-view="shop"]')
     page.wait_for_selector('[data-slot="display-01"].has-item')
     page.wait_for_function('!document.querySelector("#shop-add").disabled')
     page.locator('[data-slot="display-01"]').click()
     page.locator('#shop-item-name').fill('Renamed Lunchbox')
-    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/items/ann/flyingskateboard.png'))
+    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/shared/customer-wallet.png'))
     page.locator('#shop-item-slot').select_option('display-10a')
     page.locator('#shop-item-save').click()
     page.wait_for_selector('#shop-editor', state='hidden')
@@ -194,7 +204,7 @@ try:
     # On a different page, the same shelf is independently available.
     page.locator('#shop-add').click()
     page.locator('#shop-item-name').fill('Second Page Invention')
-    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/items/ann/flyingskateboard.png'))
+    page.locator('#shop-item-image').set_input_files(str(root / 'assets/images/shared/customer-wallet.png'))
     page.locator('#shop-item-page').fill('2')
     page.locator('#shop-item-slot').select_option('display-10a')
     page.locator('#shop-item-save').click()
@@ -211,7 +221,7 @@ try:
     page.wait_for_selector('body[data-view="lab"]')
     page.locator('nav [data-view="shop"]').click()
     page.wait_for_function('!document.querySelector("#shop-add").disabled')
-    assert page.locator('.shop-slot img').count() == 6
+    assert page.locator('.shop-slot img').count() == 0
     # A backup carries image bytes and works in an entirely separate browser save.
     with page.expect_download() as ann_download:
       page.locator('#shop-export').click()
@@ -219,7 +229,7 @@ try:
     ann_download.value.save_as(str(ann_backup_path))
     import json
     ann_backup = json.loads(ann_backup_path.read_text())
-    assert len(ann_backup['items']) == 6
+    assert len(ann_backup['items']) == 0
     assert all(item['image'].startswith('data:image/png;base64,') for item in ann_backup['items'])
     fresh = browser.new_page(viewport={'width': 1366, 'height': 768})
     fresh.goto('http://localhost:4173')
@@ -255,6 +265,6 @@ try:
     fresh.close()
     assert not browser_errors, browser_errors
     browser.close()
-    print('PASS: shop layout and themes; lesson budgets and refresh; Ann preservation; uploads, moves, removals, reload persistence, backups, invalid imports, save failures, extra pages, unchanged profile saves and user isolation.')
+    print('PASS: shop layout and themes; lesson budgets and refresh; no built-in personal images; uploads, moves, removals, reload persistence, backups, invalid imports, save failures, extra pages, unchanged profile saves and user isolation.')
 finally:
   server.terminate()

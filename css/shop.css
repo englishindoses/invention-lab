@@ -13,7 +13,7 @@ body[data-view="shop"] footer { display: none; }
 .shop-stage { position: absolute; inset: 0; margin: 0; }
 .shop-slot { position: absolute; display: flex; align-items: flex-end; justify-content: center; padding: 3px; border: 1px dashed #fff2bd88; border-radius: 5px; background: #56306912; }
 .shop-placeholder { align-self: center; display: grid; place-items: center; width: 24px; height: 24px; font-size: 12px; font-weight: bold; border: 1px solid #ffe5a899; border-radius: 50%; background: #392340d9; color: #fff1ce; }
-.shop-slot img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 3px 3px #25132155); }
+.shop-slot img { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 3px 3px #25132155); }
 .shop-slot.has-item { border-color: transparent; background: none; }
 .shop-slot:hover:not(:disabled), .shop-slot:active:not(:disabled) { transform: none; background: #fff3; }
 .shop-slot:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }

@@ -60,6 +60,39 @@ Lab.shopStorage = (() => {
     reader.onerror = () => reject(new Error('Image could not be included in the backup.'));
     reader.readAsDataURL(blob);
   });
+  async function prepareImage(blob) {
+    await validateImage(blob);
+    // Keep animated GIFs intact. All images use contain sizing in the shop.
+    if (blob.type === 'image/gif') return blob;
+    const url = URL.createObjectURL(blob);
+    try {
+      const image = new Image(); image.src = url; await image.decode();
+      const scale = Math.min(1, 1600 / Math.max(image.naturalWidth, image.naturalHeight));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          if (pixels[(y * canvas.width + x) * 4 + 3] > 0) {
+            left = Math.min(left, x); right = Math.max(right, x);
+            top = Math.min(top, y); bottom = Math.max(bottom, y);
+          }
+        }
+      }
+      if (right < 0) throw new Error('This image is completely transparent. Choose an image with a visible invention.');
+      if (left === 0 && top === 0 && right === canvas.width - 1 && bottom === canvas.height - 1) return blob;
+      const cropped = document.createElement('canvas');
+      cropped.width = right - left + 1; cropped.height = bottom - top + 1;
+      cropped.getContext('2d').drawImage(canvas, left, top, cropped.width, cropped.height, 0, 0, cropped.width, cropped.height);
+      const result = await new Promise(resolve => cropped.toBlob(resolve, 'image/png'));
+      if (!result || result.size > maxImageBytes) return blob;
+      return result;
+    } finally { URL.revokeObjectURL(url); }
+  }
   async function exportBackup(items, inventorName) {
     const backup = { format: 'invention-lab-shop', version: 1, inventorName, items: [] };
     let estimatedBytes = 0;
@@ -109,5 +142,5 @@ Lab.shopStorage = (() => {
     }
     return items;
   }
-  return { load, save, validateImage, exportBackup, importBackup };
+  return { load, save, validateImage, prepareImage, exportBackup, importBackup };
 })();

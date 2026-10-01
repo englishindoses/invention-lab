@@ -147,7 +147,7 @@
       if (!existing && items.length >= 100) throw new Error('This shop has reached its limit of 100 items.');
       if (items.some(item => item.id !== existing?.id && item.slot === slot && item.page === targetPage)) throw new Error('That shelf already has an item. Choose another shelf.');
       const item = { ...existing, id: existing?.id || crypto.randomUUID(), name, slot, page: targetPage };
-      if (file) { item.blob = await Lab.shopStorage.validateImage(file); delete item.image; }
+      if (file) { item.blob = await Lab.shopStorage.prepareImage(file); delete item.image; }
       else if (!existing) throw new Error('Choose an image for this invention.');
       await commit([...items.filter(other => other.id !== item.id), item], originalProfile);
       if (profileId === originalProfile) { page = targetPage; renderShop(); $('#shop-editor').close(); }
