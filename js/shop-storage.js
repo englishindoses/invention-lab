@@ -77,13 +77,14 @@ Lab.shopStorage = (() => {
       let left = canvas.width, top = canvas.height, right = -1, bottom = -1;
       for (let y = 0; y < canvas.height; y++) {
         for (let x = 0; x < canvas.width; x++) {
-          if (pixels[(y * canvas.width + x) * 4 + 3] > 0) {
+          // Ignore nearly invisible glow/shadow pixels when finding the item.
+          if (pixels[(y * canvas.width + x) * 4 + 3] > 8) {
             left = Math.min(left, x); right = Math.max(right, x);
             top = Math.min(top, y); bottom = Math.max(bottom, y);
           }
         }
       }
-      if (right < 0) throw new Error('This image is completely transparent. Choose an image with a visible invention.');
+      if (right < 0) throw new Error('This image has no visible invention. Choose a more visible image.');
       if (left === 0 && top === 0 && right === canvas.width - 1 && bottom === canvas.height - 1) return blob;
       const cropped = document.createElement('canvas');
       cropped.width = right - left + 1; cropped.height = bottom - top + 1;

@@ -141,6 +141,7 @@ try:
     fitting_checked = page.evaluate('''async () => {
       const canvas = document.createElement('canvas'); canvas.width = 128; canvas.height = 128;
       const ctx = canvas.getContext('2d'); ctx.fillStyle = '#36b'; ctx.fillRect(40, 30, 32, 48);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.01)'; ctx.fillRect(0, 0, 1, 1);
       const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
       const prepared = await Lab.shopStorage.prepareImage(blob);
       const cropped = await createImageBitmap(prepared);

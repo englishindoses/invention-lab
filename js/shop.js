@@ -29,6 +29,7 @@
   let editingId = null;
   let operationToken = 0;
   const imageUrls = [];
+  const fittedImages = new WeakMap();
   const $ = selector => document.querySelector(selector);
   const slotIdFor = number => `display-${number.toLowerCase().padStart(2, '0')}`;
   const validSlots = displays.map(([number]) => slotIdFor(number));
@@ -67,7 +68,7 @@
         image.alt = item.name;
         image.addEventListener('load', () => { placeholder.hidden = true; slot.classList.add('has-item'); });
         image.addEventListener('error', () => { image.hidden = true; slot.title = `${item.name} — image unavailable`; });
-        if (item.blob) { image.src = URL.createObjectURL(item.blob); imageUrls.push(image.src); }
+        if (item.blob) { image.src = URL.createObjectURL(fittedImages.get(item.blob) || item.blob); imageUrls.push(image.src); }
         else image.src = item.image;
         slot.append(image);
       }
@@ -91,7 +92,18 @@
     try {
       const saved = await Lab.shopStorage.load(id);
       if (token !== loadToken) return;
-      if (saved) { items = saved.items; revision = saved.revision; }
+      if (saved) {
+        // Improve Fit for earlier uploads without rewriting their saved images.
+        for (const item of saved.items) {
+          if (token !== loadToken) return;
+          if (item.blob) {
+            try { fittedImages.set(item.blob, await Lab.shopStorage.prepareImage(item.blob)); }
+            catch { /* Keep the original available if it cannot be processed. */ }
+          }
+        }
+        if (token !== loadToken) return;
+        items = saved.items; revision = saved.revision;
+      }
       storageReady = true; message('Saved on this browser');
     } catch (error) { if (token === loadToken) message(error.message); }
     finally { if (token === loadToken) { loading = false; renderShop(); } }
