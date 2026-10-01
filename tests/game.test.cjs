@@ -4,13 +4,26 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 const { webcrypto } = require('node:crypto');
-function setup(storage) {
-  const context = vm.createContext({ window: {}, crypto: webcrypto, TextEncoder, localStorage: storage });
+function setup(storage, lessonStorage) {
+  const context = vm.createContext({ window: {}, crypto: webcrypto, TextEncoder, localStorage: storage, sessionStorage: lessonStorage });
   vm.runInContext('window = this', context);
-  for (const file of ['config', 'words', 'achievements', 'game', 'storage', 'access']) vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'js', `${file}.js`), 'utf8'), context);
+  for (const file of ['config', 'words', 'achievements', 'game', 'storage', 'access', 'session']) vm.runInContext(fs.readFileSync(path.join(__dirname, '..', 'js', `${file}.js`), 'utf8'), context);
   return context.Lab;
 }
 function ready(Lab, p) { Lab.pull(p, 0); Lab.pull(p, 1); p.round.name = 'Cloud Shoes'; }
+test('lesson sessions restore access, screen and spent budget and clear on logout', () => {
+  const store = new Map();
+  const sessionStorage = { getItem: key => store.get(key) || null, setItem: (key, value) => store.set(key, value), removeItem: key => store.delete(key) };
+  const Lab = setup(undefined, sessionStorage);
+  const p = Lab.newProfile('Ann'); p.access = { salt: 'test', passwordDigest: 'test' };
+  assert.ok(Lab.session.save(p.id, 0, 'shop'));
+  const restored = setup(undefined, sessionStorage).session.load([p]);
+  assert.equal(restored.profileId, p.id); assert.equal(restored.customerCoins, 0); assert.equal(restored.view, 'shop');
+  assert.equal(Lab.session.load([]), null);
+  Lab.session.save(p.id, -1, 'lab'); assert.equal(Lab.session.load([p]), null);
+  Lab.session.clear(); assert.equal(Lab.session.load([p]), null);
+  assert.equal(setup().session.load([p]), null);
+});
 test('independent pulls cost one coin and exclude the current word', () => {
   const Lab = setup(); const p = Lab.newProfile('A');
   Lab.pull(p, 0, () => 0); const first = p.round.words[0];
@@ -45,6 +58,22 @@ test('incomplete, unnamed, whitespace-only, and invalid-price sales are rejected
   assert.equal(Lab.sell(p, 5), false); Lab.pull(p, 1); p.round.name = '   ';
   assert.equal(Lab.sell(p, 5), false); p.round.name = 'Name';
   assert.equal(Lab.sell(p, 100), false); assert.equal(p.inventions.length, 0);
+});
+test('customer wallet enforces the lesson budget without changing rejected rounds', () => {
+  const Lab = setup(); const p = Lab.newProfile('A');
+  const wallet = Lab.newCustomerWallet();
+  wallet.coins = 50;
+  ready(Lab, p);
+  assert.ok(Lab.sell(p, 50, wallet));
+  assert.equal(wallet.coins, 0);
+  assert.equal(Lab.sell(p, 50, wallet), false);
+  ready(Lab, p);
+  const before = JSON.stringify(p);
+  assert.equal(Lab.sell(p, 5, wallet), false);
+  assert.equal(JSON.stringify(p), before);
+  assert.ok(Lab.sell(p, 0, wallet));
+  assert.equal(wallet.coins, 0);
+  assert.equal(Lab.newCustomerWallet().coins, Lab.config.customerStartingCoins);
 });
 test('all ten achievements unlock at their thresholds and remain permanent', () => {
   const Lab = setup(); const p = Lab.newProfile('A');

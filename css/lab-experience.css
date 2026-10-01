@@ -54,6 +54,18 @@ body[data-view="lab"] footer { display: none; }
 .cashbag-label { position: absolute; left: 22%; top: 48%; width: 53%; height: 32%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #674318; }
 .cashbag-label strong { font-size: clamp(25px, 2.5vw, 43px); line-height: 1; letter-spacing: -1px; }
 .cashbag-label span { font-size: 15px; margin-top: 5px; font-weight: bold; }
+.lesson-funds { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 8px; width: 100%; text-align: center; }
+.funds-title { display: block; font-size: 12px; font-weight: bold; margin-bottom: 6px; }
+.lesson-funds .cashbag.wallet { width: 100%; }
+.lesson-funds .cashbag-label strong { font-size: 28px; }
+.lesson-funds .cashbag-label span { font-size: 11px; }
+.customer-wallet img { display: block; width: 100%; height: 110px; object-fit: contain; filter: drop-shadow(0 5px 3px #0003); }
+.customer-wallet-balance { display: flex; justify-content: center; align-items: baseline; gap: 5px; background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 5px; }
+.customer-wallet-balance strong { font-size: 25px; }
+.customer-wallet-balance span { font-size: 11px; }
+.customer-wallet small { display: block; font-size: 10px; margin-top: 5px; }
+@media (max-width: 800px) { .lesson-funds { width: 260px; flex-shrink: 0; } }
+@media (max-width: 650px) { .lesson-funds { width: 180px; } .customer-wallet img { height: 80px; } .funds-title { font-size: 10px; } }
 .machine-top { justify-content: center; }
 .machine-bottom { justify-content: center; }
 .mechanical-lever { position: relative; display: block; width: 110px; height: 115px; flex-shrink: 0; }

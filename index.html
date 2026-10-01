@@ -27,22 +27,27 @@
   <link rel="stylesheet" href="css/cartoon-art.css">
   <link rel="stylesheet" href="css/lab-experience.css">
   <link rel="stylesheet" href="css/theme-art.css">
+  <link rel="stylesheet" href="css/shop.css">
   <script defer src="js/config.js"></script>
   <script defer src="js/words.js"></script>
   <script defer src="js/achievements.js"></script>
   <script defer src="js/game.js"></script>
   <script defer src="js/storage.js"></script>
   <script defer src="js/access.js"></script>
+  <script defer src="js/session.js"></script>
   <script defer src="js/themes.js"></script>
   <script defer src="js/sounds.js"></script>
   <script defer src="js/word-display.js"></script>
   <script defer src="js/app.js"></script>
+  <script defer src="js/shop-items.js"></script>
+  <script defer src="js/shop-storage.js"></script>
+  <script defer src="js/shop.js"></script>
 </head>
 <body data-view="home">
   <header class="topbar">
     <a class="brand" href="#home" aria-label="The Invention Lab home"><span class="brand-icon">✳</span><span>THE INVENTION<span class="brand-bottom">LAB<span class="brand-dot">.</span></span></span></a>
     <nav id="lab-nav" aria-label="Lab navigation" hidden>
-      <button data-view="lab">The Lab</button><button data-view="collection">My Inventions</button><button data-view="achievements">Achievements</button><button data-view="stats">Statistics</button>
+      <button data-view="lab">The Lab</button><button data-view="shop">Shop</button><button data-view="collection">My Inventions</button><button data-view="achievements">Achievements</button><button data-view="stats">Statistics</button>
     </nav>
     <div id="member-tools" class="header-tools" hidden><span id="inventor-name"></span><button id="settings" class="settings-gear" aria-label="Settings" title="Settings">⚙</button><button id="leave-lab" class="small-button">Leave Lab</button></div>
     <span id="welcome-label">Where bright ideas begin.</span>
@@ -98,17 +103,39 @@
             <div class="sale-buttons"><button data-price="5" aria-label="Buy for 5 coins" disabled><span>Buy</span><strong>5 <small>coins</small></strong></button><button data-price="10" aria-label="Buy for 10 coins" disabled><span>Buy</span><strong>10 <small>coins</small></strong></button><button data-price="50" class="jackpot" aria-label="Buy for 50 coins" disabled><span>Buy</span><strong>50 <small>coins</small></strong></button></div>
             <button data-price="0" class="no-sale" disabled>Don’t Buy</button>
           </aside>
-          <div class="wallet cashbag" role="status" aria-live="polite" aria-atomic="true"><img src="assets/images/shared/coin-bag.png" alt="" width="1254" height="1254"><div class="cashbag-label"><strong id="balance">0</strong><span>coins</span></div></div>
+          <div class="lesson-funds">
+            <div class="inventor-funds"><span class="funds-title">Inventor's coins</span><div class="wallet cashbag" role="status" aria-live="polite" aria-atomic="true"><img src="assets/images/shared/coin-bag.png" alt="" width="1254" height="1254"><div class="cashbag-label"><strong id="balance">0</strong><span>coins</span></div></div></div>
+            <div class="customer-wallet" role="status" aria-live="polite" aria-atomic="true"><span class="funds-title">Customer's wallet</span><img src="assets/images/shared/customer-wallet.png" alt="" width="1536" height="1024"><div class="customer-wallet-balance"><strong id="customer-balance">0</strong><span>coins</span></div><small id="customer-wallet-note">Left to spend this lesson</small></div>
+          </div>
         </div>
       </div>
     </section>
     <section id="view-collection" class="view" aria-labelledby="collection-title" hidden><div class="section-heading"><div><h1 id="collection-title">My <em>Inventions.</em></h1></div><label class="filter-label">Show <select id="collection-filter"><option value="all">All inventions</option><option value="sold">Sold</option><option value="unsold">Not sold</option></select></label></div><div id="collection" class="card-grid"></div></section>
     <section id="view-achievements" class="view" aria-labelledby="achievements-title" hidden><div class="section-heading"><div><h1 id="achievements-title">Achievements</h1></div><span class="pill" id="badge-count"></span></div><div id="achievements" class="badge-grid"></div></section>
     <section id="view-stats" class="view" aria-labelledby="stats-title" hidden><div class="section-heading"><div><h1 id="stats-title">Statistics</h1></div><span class="pill">LIFETIME TOTALS</span></div><div id="statistics" class="stats-grid"></div><div class="data-note"><button id="export" class="secondary">Export backup ↓</button></div></section>
+    <section id="view-shop" class="view" aria-labelledby="shop-title" hidden>
+      <div class="shop-heading"><h1 id="shop-title">Invention Shop</h1><p>Space for your inventions</p></div>
+      <div class="shop-tools" aria-label="Shop controls"><button id="shop-add" class="secondary">Add Item</button><button id="shop-export" class="secondary">Export Shop</button><button id="shop-import" class="secondary">Import Shop</button><span id="shop-status" role="status" aria-live="polite"></span></div>
+      <div class="shop-stage">
+        <div id="shop-slots" aria-label="Invention displays"></div>
+      </div>
+      <div class="shop-pagination" hidden><button id="shop-previous" class="secondary">Previous shelves</button><span id="shop-page" role="status"></span><button id="shop-next" class="secondary">Next shelves</button></div>
+    </section>
   </main>
   <footer><span id="save-status">SAVED ON THIS BROWSER</span></footer>
   <div id="notifications" aria-live="polite" aria-atomic="false"></div><div id="particles" aria-hidden="true"></div>
   <dialog id="settings-dialog" aria-labelledby="settings-title"><div class="settings-heading"><h2 id="settings-title">Lab Settings</h2><button id="close-settings" class="small-button" aria-label="Close settings">✕</button></div><div class="setting-row"><span>Sound</span><button id="sound" class="secondary" aria-pressed="true">Sound on</button></div><div class="setting-row"><label for="theme">Theme</label><select id="theme"><option value="cartoon">Cartoon Lab</option><option value="future">Future Lab</option><option value="magic">Magic Machine</option></select></div></dialog>
   <noscript>This game needs JavaScript enabled in your browser.</noscript>
+  <dialog id="shop-editor" aria-labelledby="shop-editor-title">
+    <form id="shop-item-form">
+      <div class="settings-heading"><h2 id="shop-editor-title">Add Item</h2><button id="shop-editor-close" type="button" class="small-button" aria-label="Close item editor">Close</button></div>
+      <label for="shop-item-name">Invention name</label><input id="shop-item-name" maxlength="80" required>
+      <label for="shop-item-image">Image <small>PNG, JPEG, WebP or GIF · up to 8 MB</small></label><input id="shop-item-image" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+      <div class="shop-placement"><div><label for="shop-item-slot">Shelf</label><select id="shop-item-slot" required></select></div><div><label for="shop-item-page">Shelf page</label><input id="shop-item-page" type="number" min="1" max="100" value="1" required></div></div>
+      <p id="shop-editor-status" role="status" aria-live="polite"></p>
+      <div class="dialog-actions"><button id="shop-item-remove" type="button" class="secondary" hidden>Remove Item</button><button id="shop-item-save" type="submit" class="primary">Save Item</button></div>
+    </form>
+  </dialog>
+  <dialog id="shop-import-dialog" aria-labelledby="shop-import-title"><form id="shop-import-form"><div class="settings-heading"><h2 id="shop-import-title">Import Shop</h2><button id="shop-import-close" type="button" class="small-button">Close</button></div><p>This replaces this inventor's shop items. Export your current shop first if you want to keep a copy. Coins and invention history stay unchanged.</p><label for="shop-backup-file">Shop backup</label><input id="shop-backup-file" type="file" accept="application/json,.json" required><p id="shop-import-status" role="status" aria-live="polite"></p><div class="dialog-actions"><button id="shop-import-save" class="primary" type="submit">Import Backup</button></div></form></dialog>
 </body>
 </html>

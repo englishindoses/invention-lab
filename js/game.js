@@ -13,10 +13,13 @@ Lab.pull = function (p, slot, random = Math.random) {
   p.stats.spent += Lab.config.leverCost;
   return true;
 };
-Lab.sell = function (p, price) {
+Lab.newCustomerWallet = () => ({ coins: Lab.config.customerStartingCoins });
+Lab.sell = function (p, price, customerWallet) {
   if (!Lab.ready(p) || !Lab.config.salePrices.includes(price)) return false;
+  if (customerWallet && (!Number.isFinite(customerWallet.coins) || customerWallet.coins < price)) return false;
   const invention = { id: crypto.randomUUID(), name: p.round.name.trim(), word1: p.round.words[0], word2: p.round.words[1], sold: price > 0, salePrice: price, createdAt: new Date().toISOString() };
   p.inventions.unshift(invention);
+  if (customerWallet) customerWallet.coins -= price;
   p.coins += price;
   p.stats.created++;
   if (price > 0) p.stats.sold++;

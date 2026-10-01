@@ -1,0 +1,33 @@
+/* Background and display coordinates fit the same full viewport rectangle. */
+[data-theme="magic"] { --shop-background: url('../assets/images/magic-shop-v3.png'); --shop-nav: #241529a6; }
+[data-theme="cartoon"] { --shop-background: url('../assets/images/cartoon/shop-background.png'); --shop-nav: #12465ac9; }
+[data-theme="future"] { --shop-background: url('../assets/images/future/shop-background.png'); --shop-nav: #08172dd9; }
+[data-theme] body[data-view="shop"] { background: #241529 var(--shop-background) center center / 100% 100% no-repeat fixed; color: #fff1ce; height: 100dvh; overflow: hidden; }
+[data-theme] body[data-view="shop"] .topbar { position: fixed; inset: auto 0 0; z-index: 5; min-height: 64px; padding: 7px 2%; background: var(--shop-nav); border: 0; box-shadow: none; }
+[data-theme] body[data-view="shop"] :is(.brand, nav) { color: #fff1ce; text-shadow: none; }
+[data-theme] body[data-view="shop"] nav button.active { background: #ffe0a1; color: #34203c; }
+[data-theme] body[data-view="shop"] main { position: fixed; inset: 0; width: 100%; max-width: none; min-height: 0; padding: 0; margin: 0; }
+body[data-view="shop"] footer { display: none; }
+#view-shop { position: absolute; inset: 0; overflow: hidden; }
+.shop-heading { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.shop-stage { position: absolute; inset: 0; margin: 0; }
+.shop-slot { position: absolute; display: flex; align-items: flex-end; justify-content: center; padding: 3px; border: 1px dashed #fff2bd88; border-radius: 5px; background: #56306912; }
+.shop-placeholder { align-self: center; display: grid; place-items: center; width: 24px; height: 24px; font-size: 12px; font-weight: bold; border: 1px solid #ffe5a899; border-radius: 50%; background: #392340d9; color: #fff1ce; }
+.shop-slot img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom; filter: drop-shadow(0 3px 3px #25132155); }
+.shop-slot.has-item { border-color: transparent; background: none; }
+.shop-slot:hover:not(:disabled), .shop-slot:active:not(:disabled) { transform: none; background: #fff3; }
+.shop-slot:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
+.shop-tools { position: absolute; z-index: 2; left: 10px; top: 8px; display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 10px; background: var(--shop-nav); flex-wrap: wrap; max-width: calc(100% - 20px); }
+.shop-tools button { padding: 7px 10px; font-size: 12px; }
+.shop-tools .secondary, .shop-pagination .secondary { color: var(--ink); }
+#shop-status { font-size: 11px; max-width: 400px; }
+#shop-editor, #shop-import-dialog { width: 480px; max-height: calc(100dvh - 24px); overflow-y: auto; }
+#shop-item-form > label { margin: 18px 0 6px; }
+#shop-item-form small { display: block; margin-top: 4px; }
+.shop-placement { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+.shop-placement select { width: 100%; }
+#shop-editor-status, #shop-import-status { font-size: 13px; margin-top: 14px; min-height: 18px; }
+.shop-counter-slot { border-color: #fff2bdaa; }
+.shop-pagination { position: absolute; bottom: 76px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: 20px; padding: 6px 12px; border-radius: 8px; background: #241529ed; font-size: 12px; white-space: nowrap; }
+@media (max-width: 1050px) { .shop-pagination { bottom: 140px; } }
+@media (max-width: 650px) { .shop-placeholder { width: 16px; height: 16px; font-size: 9px; } }

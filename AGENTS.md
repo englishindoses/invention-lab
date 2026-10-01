@@ -15,9 +15,13 @@ Keep word lists separate from game logic and storage separate from gameplay. The
 
 ## Build, Test, and Development Commands
 
-No build system, package manifest, development server, or automated test commands are configured. Do not assume `npm start`, `npm test`, or `npm run build` exists.
+Tooling now uses Node.js with no package dependencies: `npm.cmd start` serves the app at http://localhost:4173, `npm.cmd run check` checks JavaScript syntax and asset references, `npm.cmd test` runs game tests, and `npm.cmd run test:browser` runs the Chrome integration checks. On Windows use `npm.cmd` if PowerShell blocks `npm.ps1`. Chrome must be installed; set `CHROME_PATH` if it is outside the default installation path. There is no build step.
 
 When tooling is introduced, document its exact setup and commands here. Keep the application compatible with static hosting on GitHub Pages; add frameworks only when they provide a clear benefit.
+
+The focused shop visual check is `python scripts/check-shop.py`. It requires Python with the `playwright` package installed (`python -m pip install playwright`) and uses the installed Chrome executable. It checks three desktop sizes across all themes and saves `artifacts/magic-shop-full-page.png`.
+
+Shop uploads and JSON backup import/export use `js/shop-storage.js` and a separate IndexedDB database. Preserve existing localStorage profiles and Ann's supplied items. The shop check also covers upload/edit/remove, occupied shelves, pages, backup transfer, invalid input, failed writes, reload, and profile isolation.
 
 ## Coding Style & Naming Conventions
 

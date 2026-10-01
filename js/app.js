@@ -8,6 +8,14 @@
   let currentView = 'home';
   const rolling = [false, false];
   let settling = false;
+  let customerWallet = Lab.newCustomerWallet();
+  const savedSession = Lab.session.load(data.profiles);
+  if (savedSession) {
+    data.active = savedSession.profileId;
+    admitted = true;
+    currentView = savedSession.view;
+    customerWallet.coins = savedSession.customerCoins;
+  }
   const profile = () => data.profiles.find(p => p.id === data.active);
   const busy = () => rolling.some(Boolean) || settling;
   const format = number => number.toLocaleString();
@@ -22,6 +30,13 @@
     } else {
       $('#save-status').textContent = 'SAVED ON THIS BROWSER';
       $('#storage-warning').hidden = true;
+    }
+    saveSession();
+  }
+  function saveSession() {
+    if (admitted && !Lab.session.save(data.active, customerWallet.coins, currentView)) {
+      $('#storage-warning').hidden = false;
+      $('#storage-warning').textContent = 'This browser cannot remember your lesson session. Refreshing may require you to access the lab again.';
     }
   }
   function toast(message, badge = false) {
@@ -44,6 +59,8 @@
     const p = profile();
     if (!p) return;
     $('#balance').textContent = format(p.coins);
+    $('#customer-balance').textContent = format(customerWallet.coins);
+    $('#customer-wallet-note').textContent = customerWallet.coins === 0 ? 'Budget spent for this lesson' : 'Left to spend this lesson';
     for (let slot = 0; slot < 2; slot++) {
       const display = $(`#word-${slot}`);
       if (!rolling[slot]) display.textContent = p.round.words[slot] || '?';
@@ -52,7 +69,11 @@
     }
     $('#invention-name').disabled = settling;
     if ($('#invention-name').value !== p.round.name) $('#invention-name').value = p.round.name;
-    $$('[data-price]').forEach(button => { button.disabled = !admitted || busy() || !Lab.ready(p); });
+    $$('[data-price]').forEach(button => {
+      const affordable = Number(button.dataset.price) <= customerWallet.coins;
+      button.disabled = !admitted || busy() || !Lab.ready(p) || !affordable;
+      button.title = affordable ? '' : 'Not enough customer coins this lesson';
+    });
     $('#bonus').hidden = p.coins !== 0;
     $('#bonus').disabled = busy();
     $('#leave-lab').disabled = busy();
@@ -124,9 +145,10 @@
     if (currentView === 'stats') renderStats();
   }
   function navigate(view) {
-    if (!['home', 'lab', 'collection', 'achievements', 'stats'].includes(view)) view = 'home';
+    if (!['home', 'lab', 'shop', 'collection', 'achievements', 'stats'].includes(view)) view = 'home';
     if (!admitted) view = 'home';
     currentView = view;
+    saveSession();
     document.body.dataset.view = view;
     $('#lab-nav').hidden = !admitted;
     $('#member-tools').hidden = !admitted;
@@ -139,6 +161,7 @@
     });
     renderView();
     window.scrollTo(0, 0);
+    document.dispatchEvent(new CustomEvent('lab:viewchange', { detail: { view, inventorName: admitted ? profile().name : null, profileId: admitted ? profile().id : null } }));
   }
   $$('[data-view]').forEach(button => button.addEventListener('click', () => navigate(button.dataset.view)));
   $('.brand').addEventListener('click', event => { event.preventDefault(); navigate(admitted ? 'lab' : 'home'); });
@@ -189,7 +212,7 @@
   $$('[data-price]').forEach(button => button.addEventListener('click', () => {
     if (!admitted || busy()) return;
     const price = Number(button.dataset.price);
-    const invention = Lab.sell(profile(), price);
+    const invention = Lab.sell(profile(), price, customerWallet);
     if (!invention) return;
     settling = true;
     checkAchievements();
@@ -220,6 +243,7 @@
   $('#leave-lab').addEventListener('click', () => {
     if (busy()) return;
     admitted = false;
+    Lab.session.clear();
     $('#settings-dialog').close();
     $('#notifications').replaceChildren();
     $('#access-form').reset();
@@ -282,6 +306,7 @@
       Lab.audio('sale', inventor.sound);
       await new Promise(resolve => setTimeout(resolve, 900));
       data.active = inventor.id;
+      customerWallet = Lab.newCustomerWallet();
       admitted = true;
       persist();
       $('#access-password').value = '';
@@ -307,7 +332,7 @@
   });
   renderPreferences();
   renderControls();
-  navigate('home');
+  navigate(currentView);
   if (loaded.error) warn(loaded.error);
   else persist();
   document.body.dataset.ready = 'true';

@@ -22,7 +22,7 @@ You can also double-click `index.html` to play directly. Browser storage behavio
 
 On the homepage, fill in **Register Inventor** with a name and password. Then enter those details on the **Lab Access** pad. Matching details show green **Access Granted** and open the lab; an unknown name or incorrect password shows red **Access Denied**. Names are case-insensitive; passwords are case-sensitive. The access pad is local role-play, with no external service.
 
-Each registered inventor starts with 20 coins and keeps separate progress, an unfinished round, theme, and sound preference. For an older notebook without a password, register its existing name to keep all its progress. Use **Leave Lab** to return to reception and enter as someone else. Reloading also returns to the access pad without resetting saves. Use one browser tab at a time.
+Each registered inventor starts with 20 coins and keeps separate progress, an unfinished round, theme, and sound preference. For an older notebook without a password, register its existing name to keep all its progress. Refreshing keeps you signed in on the same screen with the remaining customer budget, using this tab's session storage. Use **Leave Lab** to end the lesson and return to reception. The next successful login starts a new lesson. Use one browser tab at a time.
 
 Each lever costs one coin and rerolls only its own word. Enter an invention name, then choose **Buy 5**, **10**, **50**, or **Don’t Buy**. Every completed invention is saved and the machine resets. The coin bag beside the machine shows the current balance. At zero coins, **Free Restart Bonus** adds ten coins without affecting sale earnings.
 
@@ -59,4 +59,17 @@ The browser test uses headless Chrome and Node.js 22 or newer, opens a disposabl
 
 `index.html` contains the screens; `css/` contains shared layout and themes. `css/lab-experience.css` styles reception, the access pad, settings, the cashbag, and mechanical levers. `js/` separates game rules, words, achievements, storage, local access, sound, themes, and interface control. `assets/images/cartoon/` holds the machine and workshop; `assets/images/shared/` holds the coin bag. Passwords are stored as salted digests alongside local profiles. Sounds use Web Audio. `tests/` contains rule/storage/access tests. `scripts/` contains the local server and checks.
 
-Edit `js/config.js` for starting coins, lever cost, and bonus amount. Curated word lists are in `js/words.js`. The game plan remains the detailed product specification, with this version using local storage only.
+Edit `js/config.js` for starting coins, lever cost, and bonus amount. Curated word lists are in `js/words.js`. Student progress uses localStorage, lesson access uses sessionStorage, and uploaded shop images use IndexedDB. No server-side account or storage service is required.
+# Customer lesson budget
+
+The customer's wallet starts with 300 coins, configured as `customerStartingCoins` in `js/config.js`. Each successful login starts a new lesson budget. Purchases deduct the sale price from this wallet and add it to the inventor's saved coins. Unaffordable purchases are disabled; Don't Buy remains available. Navigating between screens and refreshing preserve the remaining wallet balance. Use Leave Lab and log in again to start a fresh lesson budget. Customer coins are stored in tab session storage, separately from saved student progress; no passwords are stored in the session.
+
+## Personal shops
+
+Open Shop and click Add Item (or any empty shelf). Choose an image, enter an invention name, and select its shelf and page. Click an item to rename it, move it, replace its image, or remove it. Occupied shelves cannot be overwritten by another item; use another shelf or a new shelf page. PNG, JPEG, WebP, and GIF files up to 8 MB are supported; PNG transparency is preserved. A shop can hold up to 100 items across up to 100 shelf pages.
+
+Uploaded images stay in this browser on this device, per inventor profile ID. They are not sent to GitHub or other players. Existing coins, history, achievements, settings, and profiles are unchanged. Ann's supplied images remain available by default; her edits are stored locally as a separate shop snapshot.
+
+Export Shop downloads a JSON backup containing the names, shelf positions, and image bytes. Import Shop restores a backup into the currently signed-in inventor's shop, replacing only that shop's items. Export before replacing a shop if you want to preserve it. Invalid backups or failed saves leave the previous shop intact. Backups are limited to 100 MB and can be imported in another browser or device. Clearing browser/site data may erase local shops; use backups. Localhost and GitHub Pages have separate browser storage, so transfer shops with export/import.
+
+`js/shop-storage.js` owns the separate IndexedDB database and backup format; `js/shop.js` owns display and editing controls. `python scripts/check-shop.py` verifies uploads, moves, removals, refresh persistence, occupied shelves, invalid imports, storage failures, backup transfer, profile isolation, and preservation of legacy profile data alongside theme/layout and wallet checks.

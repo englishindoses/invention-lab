@@ -106,6 +106,15 @@ async function capture(name) {
   await until(`document.querySelector('#access-status').dataset.state === 'denied'`, 'Wrong password is denied');
   await capture('access-denied');
   await enter('Test Inventor', 'rocket');
+  await click('[data-view="shop"]');
+  assert.equal(await evaluate(`document.body.dataset.view`), 'shop');
+  assert.equal(await evaluate(`document.querySelectorAll('.shop-slot').length`), 23);
+  assert.ok((await evaluate(`getComputedStyle(document.body).backgroundImage`)).includes('cartoon/shop-background.png'), 'Shop artwork matches the active cartoon theme');
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('main')).padding`), '0px', 'Shop has no content-card padding');
+  assert.equal(await evaluate(`getComputedStyle(document.querySelector('footer')).display`), 'none');
+  assert.equal(await evaluate(`(() => { const stage = document.querySelector('.shop-stage').getBoundingClientRect(); return stage.left <= 0 && stage.top <= 0 && stage.right >= innerWidth && stage.bottom >= innerHeight && [...document.querySelectorAll('.shop-slot')].every(slot => { const box = slot.getBoundingClientRect(); return box.left >= stage.left && box.right <= stage.right && box.top >= stage.top && box.bottom <= stage.bottom; }); })()`), true, 'Shop covers the viewport and displays follow the artwork');
+  await capture('magic-shop');
+  await click('[data-view="lab"]');
   assert.equal((await active()).coins, 20);
   assert.equal(await evaluate(`document.querySelector('#lab-nav').hidden`), false);
   assert.equal(await evaluate(`Promise.all(['assets/images/cartoon/machine-body.png', 'assets/images/cartoon/workshop-background-quiet.png', 'assets/images/shared/coin-bag.png'].map(src => new Promise(resolve => { const image = new Image(); image.onload = () => resolve(image.naturalWidth > 0); image.onerror = () => resolve(false); image.src = src; }))).then(results => results.every(Boolean))`), true, 'Artwork loads');
@@ -117,6 +126,7 @@ async function capture(name) {
   assert.equal((await active()).coins, 19, 'Mechanical lever responds to pointer');
   // Return to a clean registered notebook for the economy checks below.
   await command('Page.reload'); await wait(250); await load();
+  await click('#leave-lab');
   await register('Gameplay Inventor', 'rocket'); await enter('Gameplay Inventor', 'rocket');
   assert.equal(await evaluate(`document.querySelector('[data-price="5"]').disabled`), true);
   await click('#lever-0'); await click('#lever-0'); await wait(800);
@@ -211,9 +221,8 @@ async function capture(name) {
   const before = await active();
   await command('Page.reload'); await wait(300); await load();
   assert.deepEqual(await active(), before, 'Reload preserves all profile data');
-  assert.equal(await evaluate(`document.body.dataset.view`), 'home', 'Reload returns to access pad');
-  assert.equal(await evaluate(`document.querySelector('#lab-nav').hidden`), true);
-  await enter('Gameplay Inventor', 'rocket');
+  assert.equal(await evaluate(`document.body.dataset.view`), 'lab', 'Reload stays in the lab');
+  assert.equal(await evaluate(`document.querySelector('#lab-nav').hidden`), false);
   assert.equal(await evaluate(`document.documentElement.dataset.theme`), 'magic');
   await click('#leave-lab');
   await register('Second Inventor', 'stars'); await enter('Second Inventor', 'stars');
