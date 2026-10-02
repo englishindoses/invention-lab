@@ -51,6 +51,7 @@
     </nav>
     <div id="member-tools" class="header-tools" hidden><span id="inventor-name"></span><button id="settings" class="settings-gear" aria-label="Settings" title="Settings">⚙</button><button id="leave-lab" class="small-button">Leave Lab</button></div>
     <span id="welcome-label">Where bright ideas begin.</span>
+    <button id="how-to-play" class="small-button" aria-haspopup="dialog">How to Play</button>
   </header>
   <div id="storage-warning" class="warning" role="alert" hidden></div>
   <main>
@@ -137,5 +138,19 @@
     </form>
   </dialog>
   <dialog id="shop-import-dialog" aria-labelledby="shop-import-title"><form id="shop-import-form"><div class="settings-heading"><h2 id="shop-import-title">Import Shop</h2><button id="shop-import-close" type="button" class="small-button">Close</button></div><p>This replaces this inventor's shop items. Export your current shop first if you want to keep a copy. Coins and invention history stay unchanged.</p><label for="shop-backup-file">Shop backup</label><input id="shop-backup-file" type="file" accept="application/json,.json" required><p id="shop-import-status" role="status" aria-live="polite"></p><div class="dialog-actions"><button id="shop-import-save" class="primary" type="submit">Import Backup</button></div></form></dialog>
+  <dialog id="help-dialog" aria-labelledby="help-title">
+    <h2 id="help-title">How to Play</h2>
+    <p>The teacher controls the game and shares the screen. The student invents and speaks; the teacher plays the customer.</p>
+    <ol>
+      <li><strong>Enter the lab.</strong> First time: use Register Inventor, then enter the same name and password in Lab Access. Returning inventors use Lab Access.</li>
+      <li><strong>Pull both levers.</strong> Each pull costs 1 inventor coin. Reroll either word to change only that word.</li>
+      <li><strong>Invent and explain.</strong> Combine the two words into an invention and persuade the teacher to buy it.</li>
+      <li><strong>Name and sell.</strong> Type the invention name. With both words and a name ready, choose Buy 5, 10, 50, or Don't Buy. The result saves automatically and clears the machine for the next round.</li>
+    </ol>
+    <p>Inventors start with 20 coins. At zero, Free Restart Bonus adds 10. The customer's wallet starts at 300 per lesson; purchases transfer coins to the inventor. Leave Lab and sign in again to start a fresh customer budget.</p>
+    <p>My Inventions shows completed rounds. Achievements and Statistics track progress. The settings gear changes theme and sound. In Shop, use Add Item to upload a picture; click an item to edit or remove it.</p>
+    <p>Progress stays in this browser on this device. Statistics → Export backup saves notebooks (export only). Shop → Export Shop saves pictures and shelves; Import Shop replaces the current inventor's shop. Keep backups before clearing browser data.</p>
+    <form method="dialog" class="dialog-actions"><button class="primary" autofocus>Got it</button></form>
+  </dialog>
 </body>
 </html>

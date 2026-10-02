@@ -11,7 +11,7 @@ A teacher-controlled speaking game with two word levers, a coin economy, inventi
 Recommended: open PowerShell in this folder and run:
 
 ```powershell
-npm start
+npm.cmd start
 ```
 
 Open **http://127.0.0.1:4173** in Chrome. Leave the terminal running; press **Ctrl+C** to stop it. Node.js must be installed. No `npm install` or build step is needed.
@@ -19,6 +19,32 @@ Open **http://127.0.0.1:4173** in Chrome. Leave the terminal running; press **Ct
 You can also double-click `index.html` to play directly. Browser storage behavior for local files varies; the local server is recommended for consistent saving. Always use the same browser and address: file mode, localhost, and 127.0.0.1 have separate saves.
 
 ## Play and save
+
+Click **How to Play** in the game for instructions at any time, including before registration.
+
+### Run a lesson
+
+1. Open the game in Chrome and share your screen. The teacher clicks and types; the student explains their ideas aloud.
+2. For a new student, complete **Register Inventor**, then use the same name and password in **Lab Access**. Returning students go straight to **Lab Access**.
+3. Pull both levers to reveal two words. Each pull costs **1 inventor coin**. Reroll either lever if needed; the other word stays fixed.
+4. Ask the student to combine the words into an invention, explain it, and persuade you to buy it. You lead the conversation.
+5. Type the student's **Invention name**. Both words and a nonblank name are required for all sale decisions.
+6. Choose **Buy 5**, **10**, **50**, or **Don't Buy**. Buying moves that amount from your customer wallet to the inventor. Every decision saves the invention and resets the machine. Pull both levers to begin again.
+7. Finish with **Leave Lab**. Use the same browser and site address next lesson to return to the student's saved progress.
+
+Inventors begin with **20 coins**. At zero, **Free Restart Bonus** gives **10 coins**. Your customer wallet begins each login with **300 coins**; purchases beyond its remaining balance are disabled. Leaving and logging in again refreshes the customer budget while keeping inventor progress.
+
+### Explore and back up
+
+- **My Inventions**: review sold and unsold inventions. **Achievements** and **Statistics** show lifetime progress.
+- **Settings gear**: choose a theme or turn sound on/off.
+- **Shop → Add Item**: upload an invention picture and choose a name, shelf, and page. Click an existing item to edit or remove it. Shop pictures are separate from saved gameplay history.
+- **Statistics → Export backup**: download all local notebooks. Notebook backup import is not implemented.
+- **Shop → Export Shop / Import Shop**: transfer shop pictures and shelves. Import replaces the current student's shop, so export it first if you need to keep it.
+
+Saves are local to the browser, device, and site address. Clearing browser data can erase them; export backups before doing so. Use one game tab at a time.
+
+### Access and saving details
 
 On the homepage, fill in **Register Inventor** with a name and password. Then enter those details on the **Lab Access** pad. Matching details show green **Access Granted** and open the lab; an unknown name or incorrect password shows red **Access Denied**. Names are case-insensitive; passwords are case-sensitive. The access pad is local role-play, with no external service.
 

@@ -330,6 +330,7 @@
   window.addEventListener('storage', event => {
     if (event.key === Lab.storage.key || event.key === null) warn('This lab changed in another tab. Export any unsaved work, then reload to use the latest save. Use one tab at a time.');
   });
+  $('#how-to-play').addEventListener('click', () => $('#help-dialog').showModal());
   renderPreferences();
   renderControls();
   navigate(currentView);

@@ -1,6 +1,6 @@
 # Shop artwork
 
-The Shop tab has three theme backgrounds with the same 23 display bays: `magic-shop-v3.png`, `cartoon/shop-background.png`, and `future/shop-background.png`. The latter two were generated as reskins of the magic layout to preserve existing slot and item placements. The selected theme changes the shop background automatically. Earlier magic artwork is retained.
+The Shop tab has three theme backgrounds with the same 23 display bays: `magic-shop-v3.png`, `cartoon/shop-background.png`, and `future/shop-background.png`. The latter two were generated as reskins of the magic layout to preserve existing slot and item placements. The selected theme changes the shop background automatically. Superseded magic-shop images and their prompts have been removed; the current artwork prompt remains as provenance.
 
 The entire artwork fits the full viewport behind bottom navigation without cropping. The background and display layer scale to the same viewport rectangle, so shelf positions stay aligned when the window changes size. Wide or tall windows change the background proportions; individual item images preserve their proportions.
 
