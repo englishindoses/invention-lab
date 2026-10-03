@@ -52,6 +52,22 @@ try:
     page.screenshot(path=str(root / 'artifacts' / 'magic-shop-full-page.png'))
     page.locator('nav [data-view="lab"]').click()
     assert page.locator('#view-lab').is_visible()
+    # The sale panel, wallet and inventor funds must all fit without scrolling.
+    for theme in ['cartoon', 'future', 'magic']:
+      page.evaluate('(theme) => Lab.applyTheme(theme)', theme)
+      for width, height in [(1366, 768), (1440, 900), (1920, 1080), (1366, 650)]:
+        page.set_viewport_size({'width': width, 'height': height})
+        page.wait_for_timeout(100)
+        layout = page.evaluate('''() => {
+          const panel = document.querySelector('.sale-panel').getBoundingClientRect();
+          const funds = document.querySelector('.lesson-funds').getBoundingClientRect();
+          return { panelHeight: panel.height, panelBottom: panel.bottom, fundsBottom: funds.bottom, scrollHeight: document.documentElement.scrollHeight };
+        }''')
+        assert layout['panelHeight'] < 350, (theme, width, height, layout)
+        assert layout['panelBottom'] <= height and layout['fundsBottom'] <= height and layout['scrollHeight'] <= height, (theme, width, height, layout)
+      page.set_viewport_size({'width': 1366, 'height': 768})
+      page.screenshot(path=str(root / 'artifacts' / f'compact-sale-panel-{theme}.png'))
+    page.evaluate("Lab.applyTheme('cartoon')")
     # Check the customer's session budget through real game controls.
     page.emulate_media(reduced_motion='reduce')
     assert page.locator('#customer-balance').inner_text() == '300'
