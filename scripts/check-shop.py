@@ -86,7 +86,9 @@ try:
     assert page.locator('#customer-balance').inner_text() == '450'
     page.reload()
     page.wait_for_selector('body[data-view="lab"]')
-    assert page.locator('#customer-limit').inner_text() == '500'
+    page.locator('#budget-settings').click()
+    assert page.locator('#budget-limit').input_value() == '500'
+    page.locator('#close-budget').click()
     assert page.locator('#customer-balance').inner_text() == '450'
     page.locator('#budget-settings').click()
     page.locator('#budget-limit').fill('300')

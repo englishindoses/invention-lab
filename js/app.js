@@ -61,9 +61,7 @@
     if (!p) return;
     $('#balance').textContent = format(p.coins);
     $('#customer-balance').textContent = format(customerWallet.coins);
-    $('#customer-limit').textContent = format(customerWallet.limit);
     $('#budget-settings').disabled = busy();
-    $('#customer-wallet-note').textContent = customerWallet.coins === 0 ? 'Budget spent for this lesson' : 'Left to spend this lesson';
     for (let slot = 0; slot < 2; slot++) {
       const display = $(`#word-${slot}`);
       if (!rolling[slot]) display.textContent = p.round.words[slot] || '?';

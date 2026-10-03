@@ -100,4 +100,4 @@ Export Shop downloads a JSON backup containing the names, shelf positions, and i
 
 `js/shop-storage.js` owns the separate IndexedDB database and backup format; `js/shop.js` owns display and editing controls. `python scripts/check-shop.py` verifies uploads, moves, removals, refresh persistence, occupied shelves, invalid imports, storage failures, backup transfer, profile isolation, and preservation of legacy profile data alongside theme/layout and wallet checks.
 
-The customer wallet is inside the sale panel. Use the gear beside Spend limit to adjust the lesson total; purchases already made remain deducted. The limit survives refresh and resets to 300 when starting a new lesson.
+The customer wallet is inside the sale panel. Use the gear beside the wallet balance to adjust the lesson total; purchases already made remain deducted. The limit survives refresh and resets to 300 when starting a new lesson.
