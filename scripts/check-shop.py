@@ -64,6 +64,18 @@ try:
     page.locator('[data-price="50"]').click()
     page.wait_for_timeout(1200)
     assert page.locator('#customer-balance').inner_text() == '250'
+    page.locator('#budget-settings').click()
+    page.locator('#budget-limit').fill('500')
+    page.locator('#budget-form button[type="submit"]').click()
+    assert page.locator('#customer-balance').inner_text() == '450'
+    page.reload()
+    page.wait_for_selector('body[data-view="lab"]')
+    assert page.locator('#customer-limit').inner_text() == '500'
+    assert page.locator('#customer-balance').inner_text() == '450'
+    page.locator('#budget-settings').click()
+    page.locator('#budget-limit').fill('300')
+    page.locator('#budget-form button[type="submit"]').click()
+    assert page.locator('#customer-balance').inner_text() == '250'
     assert page.locator('#balance').inner_text() == '68'
     page.reload()
     page.wait_for_selector('body[data-view="lab"]')
@@ -83,7 +95,7 @@ try:
       page.wait_for_timeout(1200)
     assert page.locator('#customer-balance').inner_text() == '0'
     prepare_sale('No budget left')
-    for price in [5, 10, 50]:
+    for price in [10, 50, 100]:
       assert page.locator(f'[data-price="{price}"]').is_disabled()
     assert page.locator('[data-price="0"]').is_enabled()
     page.locator('[data-price="0"]').click()

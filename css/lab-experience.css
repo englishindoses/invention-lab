@@ -54,7 +54,8 @@ body[data-view="lab"] footer { display: none; }
 .cashbag-label { position: absolute; left: 22%; top: 48%; width: 53%; height: 32%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #674318; }
 .cashbag-label strong { font-size: clamp(25px, 2.5vw, 43px); line-height: 1; letter-spacing: -1px; }
 .cashbag-label span { font-size: 15px; margin-top: 5px; font-weight: bold; }
-.lesson-funds { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 8px; width: 100%; text-align: center; }
+.lesson-funds { display: grid; grid-template-columns: 1fr; justify-items: center; width: 100%; text-align: center; }
+.inventor-funds { width: 160px; }
 .funds-title { display: block; font-size: 12px; font-weight: bold; margin-bottom: 6px; }
 .lesson-funds .cashbag.wallet { width: 100%; }
 .lesson-funds .cashbag-label strong { font-size: 28px; }
@@ -64,6 +65,15 @@ body[data-view="lab"] footer { display: none; }
 .customer-wallet-balance strong { font-size: 25px; }
 .customer-wallet-balance span { font-size: 11px; }
 .customer-wallet small { display: block; font-size: 10px; margin-top: 5px; }
+.sale-panel .customer-wallet { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.customer-wallet-summary { display: flex; align-items: center; gap: 8px; }
+.sale-panel .customer-wallet img { width: 72px; height: 58px; }
+.sale-panel .customer-wallet-balance { justify-content: flex-start; padding: 0; border: 0; background: transparent; }
+.sale-panel .customer-wallet small { font-size: 11px; color: var(--ink); }
+.spend-limit { display: flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 12px; flex-wrap: wrap; }
+.spend-limit .small-button { width: 30px; height: 30px; padding: 0; font-size: 19px; color: var(--ink); }
+#budget-form > label { display: block; margin: 22px 0 8px; }
+#budget-spent, #budget-error { font-size: 13px; margin-top: 12px; }
 @media (max-width: 800px) { .lesson-funds { width: 260px; flex-shrink: 0; } }
 @media (max-width: 650px) { .lesson-funds { width: 180px; } .customer-wallet img { height: 80px; } .funds-title { font-size: 10px; } }
 .machine-top { justify-content: center; }

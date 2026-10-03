@@ -19,6 +19,12 @@ test('lesson sessions restore access, screen and spent budget and clear on logou
   assert.ok(Lab.session.save(p.id, 0, 'shop'));
   const restored = setup(undefined, sessionStorage).session.load([p]);
   assert.equal(restored.profileId, p.id); assert.equal(restored.customerCoins, 0); assert.equal(restored.view, 'shop');
+  assert.ok(Lab.session.save(p.id, 450, 'lab', 500));
+  const adjusted = Lab.session.load([p]);
+  assert.equal(adjusted.customerLimit, 500);
+  assert.equal(adjusted.customerCoins, 450);
+  Lab.session.save(p.id, 501, 'lab', 500);
+  assert.equal(Lab.session.load([p]), null);
   assert.equal(Lab.session.load([]), null);
   Lab.session.save(p.id, -1, 'lab'); assert.equal(Lab.session.load([p]), null);
   Lab.session.clear(); assert.equal(Lab.session.load([p]), null);
@@ -40,7 +46,7 @@ test('zero coins block pulls; bonus is repeat-safe and does not affect sales tot
   assert.equal(p.coins, 10); assert.equal(p.stats.earned, 0); assert.equal(p.stats.created, 0);
 });
 test('all sale outcomes save the original words, update totals, and reset the round', () => {
-  for (const price of [0, 5, 10, 50]) {
+  for (const price of [0, 10, 50, 100]) {
     const Lab = setup(); const p = Lab.newProfile('A'); ready(Lab, p);
     const words = [...p.round.words];
     const record = Lab.sell(p, price);
@@ -54,10 +60,10 @@ test('all sale outcomes save the original words, update totals, and reset the ro
 });
 test('incomplete, unnamed, whitespace-only, and invalid-price sales are rejected', () => {
   const Lab = setup(); const p = Lab.newProfile('A');
-  assert.equal(Lab.sell(p, 5), false); Lab.pull(p, 0); p.round.name = 'Name';
-  assert.equal(Lab.sell(p, 5), false); Lab.pull(p, 1); p.round.name = '   ';
-  assert.equal(Lab.sell(p, 5), false); p.round.name = 'Name';
-  assert.equal(Lab.sell(p, 100), false); assert.equal(p.inventions.length, 0);
+  assert.equal(Lab.sell(p, 10), false); Lab.pull(p, 0); p.round.name = 'Name';
+  assert.equal(Lab.sell(p, 10), false); Lab.pull(p, 1); p.round.name = '   ';
+  assert.equal(Lab.sell(p, 10), false); p.round.name = 'Name';
+  assert.equal(Lab.sell(p, 5), false); assert.equal(p.inventions.length, 0);
 });
 test('customer wallet enforces the lesson budget without changing rejected rounds', () => {
   const Lab = setup(); const p = Lab.newProfile('A');
@@ -69,7 +75,7 @@ test('customer wallet enforces the lesson budget without changing rejected round
   assert.equal(Lab.sell(p, 50, wallet), false);
   ready(Lab, p);
   const before = JSON.stringify(p);
-  assert.equal(Lab.sell(p, 5, wallet), false);
+  assert.equal(Lab.sell(p, 10, wallet), false);
   assert.equal(JSON.stringify(p), before);
   assert.ok(Lab.sell(p, 0, wallet));
   assert.equal(wallet.coins, 0);
@@ -166,4 +172,13 @@ test('empty reception saves and registered profiles can reload from local storag
   await Lab.access.register(data, 'Ada', 'stars'); assert.ok(Lab.storage.save(data));
   const reloaded = setup(storage); const saved = reloaded.storage.load().data;
   assert.equal((await reloaded.access.match(saved, 'Ada', 'stars')).name, 'Ada');
+});
+
+test('historic five-coin sales remain readable after price changes', () => {
+  let saved = null;
+  const storage = { getItem: () => saved, setItem: (_, value) => { saved = value; } };
+  const Lab = setup(storage); const p = Lab.newProfile('Legacy');
+  ready(Lab, p); Lab.sell(p, 10); p.inventions[0].salePrice = 5;
+  assert.ok(Lab.storage.save({ version: 1, active: p.id, profiles: [p] }));
+  assert.equal(setup(storage).storage.load().data.profiles[0].inventions[0].salePrice, 5);
 });

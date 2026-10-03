@@ -15,6 +15,7 @@
     admitted = true;
     currentView = savedSession.view;
     customerWallet.coins = savedSession.customerCoins;
+    customerWallet.limit = savedSession.customerLimit;
   }
   const profile = () => data.profiles.find(p => p.id === data.active);
   const busy = () => rolling.some(Boolean) || settling;
@@ -34,7 +35,7 @@
     saveSession();
   }
   function saveSession() {
-    if (admitted && !Lab.session.save(data.active, customerWallet.coins, currentView)) {
+    if (admitted && !Lab.session.save(data.active, customerWallet.coins, currentView, customerWallet.limit)) {
       $('#storage-warning').hidden = false;
       $('#storage-warning').textContent = 'This browser cannot remember your lesson session. Refreshing may require you to access the lab again.';
     }
@@ -60,6 +61,8 @@
     if (!p) return;
     $('#balance').textContent = format(p.coins);
     $('#customer-balance').textContent = format(customerWallet.coins);
+    $('#customer-limit').textContent = format(customerWallet.limit);
+    $('#budget-settings').disabled = busy();
     $('#customer-wallet-note').textContent = customerWallet.coins === 0 ? 'Budget spent for this lesson' : 'Left to spend this lesson';
     for (let slot = 0; slot < 2; slot++) {
       const display = $(`#word-${slot}`);
@@ -201,7 +204,7 @@
     $('#machine').classList.add(price ? 'celebrating' : 'unsold');
     $('.wallet').classList.add('bump');
     if (!price || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    for (let index = 0; index < (price === 50 ? 45 : 16); index++) {
+    for (let index = 0; index < (price === 100 ? 45 : 16); index++) {
       const particle = element('span', 'particle', '✦');
       particle.style.left = `${Math.random() * 100}%`;
       particle.style.animationDelay = `${Math.random() * 0.45}s`;
@@ -220,7 +223,7 @@
     renderControls();
     renderView();
     toast(price ? `Sold! ${invention.name} · +${price} coins` : `${invention.name} added to your collection.`);
-    Lab.audio(price === 50 ? 'jackpot' : price ? 'sale' : 'unsold', profile().sound);
+    Lab.audio(price === 100 ? 'jackpot' : price ? 'sale' : 'unsold', profile().sound);
     celebrate(price);
     setTimeout(() => {
       settling = false;
@@ -238,6 +241,31 @@
   });
   $('#theme').addEventListener('change', event => { if (!admitted) return; profile().theme = event.target.value; persist(); renderPreferences(); renderControls(); });
   $('#sound').addEventListener('click', () => { if (!admitted) return; profile().sound = !profile().sound; persist(); renderPreferences(); renderControls(); Lab.audio('reveal', profile().sound); });
+  $('#budget-settings').addEventListener('click', () => {
+    if (!admitted || busy()) return;
+    const spent = customerWallet.limit - customerWallet.coins;
+    $('#budget-limit').value = customerWallet.limit;
+    $('#budget-limit').min = spent;
+    $('#budget-spent').textContent = `${format(spent)} coins already spent. The new limit includes these purchases.`;
+    $('#budget-error').textContent = '';
+    $('#budget-dialog').showModal();
+  });
+  $('#close-budget').addEventListener('click', () => $('#budget-dialog').close());
+  $('#budget-form').addEventListener('submit', event => {
+    event.preventDefault();
+    if (!admitted || busy()) return;
+    const limit = Number($('#budget-limit').value);
+    const spent = customerWallet.limit - customerWallet.coins;
+    if (!Number.isSafeInteger(limit) || limit < spent || limit < 0 || limit > 999999) {
+      $('#budget-error').textContent = 'Enter a whole-coin limit at least as large as the coins already spent (maximum 999,999).';
+      return;
+    }
+    customerWallet.limit = limit;
+    customerWallet.coins = limit - spent;
+    saveSession();
+    renderControls();
+    $('#budget-dialog').close();
+  });
   $('#settings').addEventListener('click', () => { if (admitted) $('#settings-dialog').showModal(); });
   $('#close-settings').addEventListener('click', () => $('#settings-dialog').close());
   $('#leave-lab').addEventListener('click', () => {

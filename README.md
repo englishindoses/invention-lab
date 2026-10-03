@@ -29,7 +29,7 @@ Click **How to Play** in the game for instructions at any time, including before
 3. Pull both levers to reveal two words. Each pull costs **1 inventor coin**. Reroll either lever if needed; the other word stays fixed.
 4. Ask the student to combine the words into an invention, explain it, and persuade you to buy it. You lead the conversation.
 5. Type the student's **Invention name**. Both words and a nonblank name are required for all sale decisions.
-6. Choose **Buy 5**, **10**, **50**, or **Don't Buy**. Buying moves that amount from your customer wallet to the inventor. Every decision saves the invention and resets the machine. Pull both levers to begin again.
+6. Choose **Buy 10**, **50**, **100**, or **Don't Buy**. Buying moves that amount from your customer wallet to the inventor. Every decision saves the invention and resets the machine. Pull both levers to begin again.
 7. Finish with **Leave Lab**. Use the same browser and site address next lesson to return to the student's saved progress.
 
 Inventors begin with **20 coins**. At zero, **Free Restart Bonus** gives **10 coins**. Your customer wallet begins each login with **300 coins**; purchases beyond its remaining balance are disabled. Leaving and logging in again refreshes the customer budget while keeping inventor progress.
@@ -50,7 +50,7 @@ On the homepage, fill in **Register Inventor** with a name and password. Then en
 
 Each registered inventor starts with 20 coins and keeps separate progress, an unfinished round, theme, and sound preference. For an older notebook without a password, register its existing name to keep all its progress. Refreshing keeps you signed in on the same screen with the remaining customer budget, using this tab's session storage. Use **Leave Lab** to end the lesson and return to reception. The next successful login starts a new lesson. Use one browser tab at a time.
 
-Each lever costs one coin and rerolls only its own word. Enter an invention name, then choose **Buy 5**, **10**, **50**, or **Don’t Buy**. Every completed invention is saved and the machine resets. The coin bag beside the machine shows the current balance. At zero coins, **Free Restart Bonus** adds ten coins without affecting sale earnings.
+Each lever costs one coin and rerolls only its own word. Enter an invention name, then choose **Buy 10**, **50**, **100**, or **Don’t Buy**. Every completed invention is saved and the machine resets. The coin bag beside the machine shows the current balance. At zero coins, **Free Restart Bonus** adds ten coins without affecting sale earnings.
 
 Each lever reveals one word or one lexical unit, such as a compound noun (`ice cream`) or phrasal verb (`takes off`). Lists contain ingredients for an idea rather than full descriptions: `dragon` + `pocket` leaves the student to explain how the dragon fits in a pocket. Word displays use fixed boxes; short entries appear larger and longer entries shrink to fit on one line. Text refits after rerolls, theme switches, and resizing.
 
@@ -99,3 +99,5 @@ Uploaded images stay in this browser on this device, per inventor profile ID. Th
 Export Shop downloads a JSON backup containing the names, shelf positions, and image bytes. Import Shop restores a backup into the currently signed-in inventor's shop, replacing only that shop's items. Export before replacing a shop if you want to preserve it. Invalid backups or failed saves leave the previous shop intact. Backups are limited to 100 MB and can be imported in another browser or device. Clearing browser/site data may erase local shops; use backups. Localhost and GitHub Pages have separate browser storage, so transfer shops with export/import.
 
 `js/shop-storage.js` owns the separate IndexedDB database and backup format; `js/shop.js` owns display and editing controls. `python scripts/check-shop.py` verifies uploads, moves, removals, refresh persistence, occupied shelves, invalid imports, storage failures, backup transfer, profile isolation, and preservation of legacy profile data alongside theme/layout and wallet checks.
+
+The customer wallet is inside the sale panel. Use the gear beside Spend limit to adjust the lesson total; purchases already made remain deducted. The limit survives refresh and resets to 300 when starting a new lesson.

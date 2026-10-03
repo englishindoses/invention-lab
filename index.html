@@ -101,12 +101,17 @@
         <div class="lab-sidebar">
           <aside class="sale-panel" aria-label="Invention sale">
             <label for="invention-name" class="sr-only">Invention name</label><input id="invention-name" maxlength="80" placeholder="Invention name" autocomplete="off">
-            <div class="sale-buttons"><button data-price="5" aria-label="Buy for 5 coins" disabled><span>Buy</span><strong>5 <small>coins</small></strong></button><button data-price="10" aria-label="Buy for 10 coins" disabled><span>Buy</span><strong>10 <small>coins</small></strong></button><button data-price="50" class="jackpot" aria-label="Buy for 50 coins" disabled><span>Buy</span><strong>50 <small>coins</small></strong></button></div>
+            <div class="sale-buttons"><button data-price="10" aria-label="Buy for 10 coins" disabled><span>Buy</span><strong>10 <small>coins</small></strong></button><button data-price="50" aria-label="Buy for 50 coins" disabled><span>Buy</span><strong>50 <small>coins</small></strong></button><button data-price="100" class="jackpot" aria-label="Buy for 100 coins" disabled><span>Buy</span><strong>100 <small>coins</small></strong></button></div>
             <button data-price="0" class="no-sale" disabled>Don’t Buy</button>
+            <div class="customer-wallet">
+              <span class="funds-title">Customer's wallet</span>
+              <div class="customer-wallet-summary"><img src="assets/images/shared/customer-wallet.png" alt="" width="1536" height="1024"><div><div class="customer-wallet-balance" role="status" aria-live="polite" aria-atomic="true"><strong id="customer-balance">0</strong><span>coins left</span></div><small id="customer-wallet-note">Left to spend this lesson</small></div></div>
+              <div class="spend-limit">Spend limit: <strong id="customer-limit">300</strong><span>coins</span><button id="budget-settings" class="small-button" aria-label="Adjust customer spending limit" title="Adjust spending limit" aria-haspopup="dialog">&#9881;</button></div>
+            </div>
           </aside>
           <div class="lesson-funds">
             <div class="inventor-funds"><span class="funds-title">Inventor's coins</span><div class="wallet cashbag" role="status" aria-live="polite" aria-atomic="true"><img src="assets/images/shared/coin-bag.png" alt="" width="1254" height="1254"><div class="cashbag-label"><strong id="balance">0</strong><span>coins</span></div></div></div>
-            <div class="customer-wallet" role="status" aria-live="polite" aria-atomic="true"><span class="funds-title">Customer's wallet</span><img src="assets/images/shared/customer-wallet.png" alt="" width="1536" height="1024"><div class="customer-wallet-balance"><strong id="customer-balance">0</strong><span>coins</span></div><small id="customer-wallet-note">Left to spend this lesson</small></div>
+
           </div>
         </div>
       </div>
@@ -125,6 +130,7 @@
   </main>
   <footer><span id="save-status">SAVED ON THIS BROWSER</span></footer>
   <div id="notifications" aria-live="polite" aria-atomic="false"></div><div id="particles" aria-hidden="true"></div>
+  <dialog id="budget-dialog" aria-labelledby="budget-title"><form id="budget-form"><div class="settings-heading"><h2 id="budget-title">Customer spend limit</h2><button type="button" id="close-budget" class="small-button" aria-label="Close spending limit settings">&#10005;</button></div><label for="budget-limit">Coins for this lesson</label><input id="budget-limit" type="number" min="0" max="999999" step="1" required><p id="budget-spent"></p><p id="budget-error" role="alert"></p><button class="primary" type="submit">Save limit</button></form></dialog>
   <dialog id="settings-dialog" aria-labelledby="settings-title"><div class="settings-heading"><h2 id="settings-title">Lab Settings</h2><button id="close-settings" class="small-button" aria-label="Close settings">✕</button></div><div class="setting-row"><span>Sound</span><button id="sound" class="secondary" aria-pressed="true">Sound on</button></div><div class="setting-row"><label for="theme">Theme</label><select id="theme"><option value="cartoon">Cartoon Lab</option><option value="future">Future Lab</option><option value="magic">Magic Machine</option></select></div></dialog>
   <noscript>This game needs JavaScript enabled in your browser.</noscript>
   <dialog id="shop-editor" aria-labelledby="shop-editor-title">
@@ -145,9 +151,9 @@
       <li><strong>Enter the lab.</strong> First time: use Register Inventor, then enter the same name and password in Lab Access. Returning inventors use Lab Access.</li>
       <li><strong>Pull both levers.</strong> Each pull costs 1 inventor coin. Reroll either word to change only that word.</li>
       <li><strong>Invent and explain.</strong> Combine the two words into an invention and persuade the teacher to buy it.</li>
-      <li><strong>Name and sell.</strong> Type the invention name. With both words and a name ready, choose Buy 5, 10, 50, or Don't Buy. The result saves automatically and clears the machine for the next round.</li>
+      <li><strong>Name and sell.</strong> Type the invention name. With both words and a name ready, choose Buy 10, 50, 100, or Don't Buy. The result saves automatically and clears the machine for the next round.</li>
     </ol>
-    <p>Inventors start with 20 coins. At zero, Free Restart Bonus adds 10. The customer's wallet starts at 300 per lesson; purchases transfer coins to the inventor. Leave Lab and sign in again to start a fresh customer budget.</p>
+    <p>Inventors start with 20 coins. At zero, Free Restart Bonus adds 10. Buy for 10, 50 or 100 coins. The customer's wallet starts at 300 per lesson; use the gear next to Spend limit to adjust it. Changing the limit keeps coins already spent; purchases transfer coins to the inventor. Leave Lab and sign in again to start a fresh customer budget.</p>
     <p>My Inventions shows completed rounds. Achievements and Statistics track progress. The settings gear changes theme and sound. In Shop, use Add Item to upload a picture; click an item to edit or remove it.</p>
     <p>Progress stays in this browser on this device. Statistics → Export backup saves notebooks (export only). Shop → Export Shop saves pictures and shelves; Import Shop replaces the current inventor's shop. Keep backups before clearing browser data.</p>
     <form method="dialog" class="dialog-actions"><button class="primary" autofocus>Got it</button></form>

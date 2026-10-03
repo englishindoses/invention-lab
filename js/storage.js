@@ -8,7 +8,7 @@ Lab.storage = (() => {
     p.stats && ['created', 'sold', 'earned', 'pulls', 'spent', 'bigSales'].every(k => Number.isSafeInteger(p.stats[k]) && p.stats[k] >= 0) &&
     p.round && Array.isArray(p.round.words) && p.round.words.length === 2 && p.round.words.every(w => typeof w === 'string') && typeof p.round.name === 'string' &&
     p.achievements && typeof p.achievements === 'object' && !Array.isArray(p.achievements) && Array.isArray(p.inventions) &&
-    p.inventions.every(i => i && ['id', 'name', 'word1', 'word2', 'createdAt'].every(k => typeof i[k] === 'string') && typeof i.sold === 'boolean' && Lab.config.salePrices.includes(i.salePrice));
+    p.inventions.every(i => i && ['id', 'name', 'word1', 'word2', 'createdAt'].every(k => typeof i[k] === 'string') && typeof i.sold === 'boolean' && (i.salePrice === 5 || Lab.config.salePrices.includes(i.salePrice)));
   return {
     key,
     load() {

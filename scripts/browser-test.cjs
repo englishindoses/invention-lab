@@ -128,7 +128,7 @@ async function capture(name) {
   await command('Page.reload'); await wait(250); await load();
   await click('#leave-lab');
   await register('Gameplay Inventor', 'rocket'); await enter('Gameplay Inventor', 'rocket');
-  assert.equal(await evaluate(`document.querySelector('[data-price="5"]').disabled`), true);
+  assert.equal(await evaluate(`document.querySelector('[data-price="10"]').disabled`), true);
   await click('#lever-0'); await click('#lever-0'); await wait(800);
   assert.equal((await active()).coins, 19, 'Double-click spends only once');
   const firstWord = (await active()).round.words[0];
@@ -137,13 +137,13 @@ async function capture(name) {
   assert.equal((await active()).round.words[0], firstWord);
   assert.equal((await active()).coins, 17);
   await input('#invention-name', '   ');
-  assert.equal(await evaluate(`document.querySelector('[data-price="5"]').disabled`), true);
+  assert.equal(await evaluate(`document.querySelector('[data-price="10"]').disabled`), true);
   await input('#invention-name', '<b>Cloud Shoes</b>');
-  await click('[data-price="5"]'); await click('[data-price="5"]'); await wait(1200);
-  assert.equal((await active()).coins, 22); assert.equal((await active()).inventions.length, 1);
-  for (const price of [10, 50, 0]) await round(`Idea ${price}`, price);
+  await click('[data-price="10"]'); await click('[data-price="10"]'); await wait(1200);
+  assert.equal((await active()).coins, 27); assert.equal((await active()).inventions.length, 1);
+  for (const price of [50, 100, 0]) await round(`Idea ${price}`, price);
   let p = await active();
-  assert.equal(p.stats.created, 4); assert.equal(p.stats.sold, 3); assert.equal(p.stats.earned, 65);
+  assert.equal(p.stats.created, 4); assert.equal(p.stats.sold, 3); assert.equal(p.stats.earned, 160);
   assert.ok(p.achievements.first); assert.ok(p.achievements.big);
   await click('[data-view="collection"]');
   assert.equal(await evaluate(`document.querySelectorAll('.invention-card').length`), 4);

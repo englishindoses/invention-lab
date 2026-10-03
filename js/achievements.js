@@ -4,7 +4,7 @@ Lab.achievements = [
   { id: 'super', name: 'Super Inventor', description: 'Create 20 inventions.', icon: '✹', stat: 'created', target: 20 },
   { id: 'seller', name: 'Salesperson', description: 'Sell 5 inventions.', icon: '◆', stat: 'sold', target: 5 },
   { id: 'master', name: 'Master Salesperson', description: 'Sell 20 inventions.', icon: '♛', stat: 'sold', target: 20 },
-  { id: 'big', name: 'Big Sale', description: 'Sell an invention for 50 coins.', icon: '★', stat: 'bigSales', target: 1 },
+  { id: 'big', name: 'Big Sale', description: 'Sell an invention for at least 50 coins.', icon: '★', stat: 'bigSales', target: 1 },
   { id: 'collector', name: 'Coin Collector', description: 'Earn 100 coins from sales.', icon: '◉', stat: 'earned', target: 100 },
   { id: 'empire', name: 'Invention Empire', description: 'Earn 500 coins from sales.', icon: '♜', stat: 'earned', target: 500 },
   { id: 'experimenter', name: 'Experimenter', description: 'Pull the levers 25 times.', icon: '⚡', stat: 'pulls', target: 25 },

@@ -1,11 +1,15 @@
 /* Background and display coordinates fit the same full viewport rectangle. */
 [data-theme="magic"] { --shop-background: url('../assets/images/magic-shop-v3.png'); --shop-nav: #241529a6; }
-[data-theme="cartoon"] { --shop-background: url('../assets/images/cartoon/shop-background.png'); --shop-nav: #12465ac9; }
+[data-theme="cartoon"] { --shop-background: url('../assets/images/cartoon/shop-background.png'); --shop-nav: #12465a; }
 [data-theme="future"] { --shop-background: url('../assets/images/future/shop-background.png'); --shop-nav: #08172dd9; }
 [data-theme] body[data-view="shop"] { background: #241529 var(--shop-background) center center / 100% 100% no-repeat fixed; color: #fff1ce; height: 100dvh; overflow: hidden; }
 [data-theme] body[data-view="shop"] .topbar { position: fixed; inset: auto 0 0; z-index: 5; min-height: 64px; padding: 7px 2%; background: var(--shop-nav); border: 0; box-shadow: none; }
 [data-theme] body[data-view="shop"] :is(.brand, nav) { color: #fff1ce; text-shadow: none; }
 [data-theme] body[data-view="shop"] nav button.active { background: #ffe0a1; color: #34203c; }
+[data-theme="cartoon"] body[data-view="shop"] .topbar { color: #fff1ce; }
+[data-theme="cartoon"] body[data-view="shop"] .topbar :is(.small-button, .settings-gear) { background: #fffcf3; color: #263b36; border-color: #d8dcd0; }
+[data-theme="cartoon"] body[data-view="shop"] nav button:hover:not(.active) { background: #ffffff20; }
+[data-theme="cartoon"] body[data-view="shop"] .topbar :focus-visible { outline-color: #ffe0a1; }
 [data-theme] body[data-view="shop"] main { position: fixed; inset: 0; width: 100%; max-width: none; min-height: 0; padding: 0; margin: 0; }
 body[data-view="shop"] footer { display: none; }
 #view-shop { position: absolute; inset: 0; overflow: hidden; }
